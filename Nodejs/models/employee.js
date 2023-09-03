@@ -32,6 +32,8 @@ const employeeSchema = new Schema(
       },
     },
     address: { type: String, required: true },
+    imageUrl: { type: String },
+    refreshToken: { type: String },
   },
   {
     versionKey: false,

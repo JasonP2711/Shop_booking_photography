@@ -74,10 +74,10 @@ router.post("/", validateSchema(customerBodySchema), async (req, res, next) => {
   try {
     const data = req.body;
     console.log(req.body.email);
-    const emailCheck = new Customer({
-      email: data.email,
-    });
-    console.log(emailCheck);
+    // const emailCheck = new Customer({
+    //   email: data.email,
+    // });
+    // console.log(emailCheck);
     const checkEmailExist = await Customer.findOne({ email: data.email });
     if (checkEmailExist) {
       return res.json({ message: "exist account" });

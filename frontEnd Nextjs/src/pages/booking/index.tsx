@@ -75,7 +75,7 @@ function index({}: Props) {
       status: "WAITING",
       bookingPlace: `${value.address}-${value.district}-${value.province}`,
     };
-    console.log("order: ", value);
+    // console.log("order: ", value);
 
     const postOrder = async () => {
       const sub = await axios.post(`${URL_ENV}/order`, value);
