@@ -1,16 +1,26 @@
 import React from "react";
 import style from "./style.module.css";
+import { UseAuth } from "../../managerState/useAuth";
 import { Button, Checkbox, Form, Input } from "antd";
-
+import { useNavigate } from "react-router-dom";
 type FieldType = {
-  username?: string;
+  email?: string;
   password?: string;
 };
 type Props = {};
 
 function Index({}: Props) {
+  const navigate = useNavigate();
+  const { auth } = UseAuth((state: any) => state);
+  const { Login } = UseAuth((state: any) => state);
+  // console.log("auth: ", auth);
+  if (auth) {
+    navigate("/");
+  }
   const onFinish = (value: FieldType) => {
-    console.log(value);
+    const { email, password } = value;
+    console.log(email, password);
+    Login({ email, password });
   };
   const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo);
@@ -19,7 +29,7 @@ function Index({}: Props) {
   return (
     <body className="bg-teal-500 h-screen">
       <div className="flex justify-center items-center h-screen ">
-        <div className="bg-white h-60 pt-10 pr-20 h-1/2 w-1/2">
+        <div className="bg-white pt-10 pr-20 h-1/2 w-1/2">
           <h1 className="flex justify-center text-4xl mb-8 font-semibold">
             LOGIN
           </h1>
@@ -33,8 +43,8 @@ function Index({}: Props) {
             autoComplete="off"
           >
             <Form.Item<FieldType>
-              label="Username"
-              name="username"
+              label="Email"
+              name="email"
               rules={[
                 { required: true, message: "Please input your username!" },
               ]}

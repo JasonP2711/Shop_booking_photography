@@ -13,14 +13,46 @@ const {
   OrderBodySchema,
 } = require("../validation/order");
 
+// router.get("/", async (req, res, next) => {
+//   try {
+//     await Order.find().then((response) => {
+//       res.send({ ok: true, results: response });
+//     });
+//   } catch (error) {
+//     return res.status(500).json({ error: error.message });
+//   }
+// });
+
 router.get("/", async (req, res, next) => {
   try {
-    await Order.find().then((response) => {
-      res.send({ ok: true, results: response });
-    });
-  } catch (error) {
-    return res.status(500).json({ error: error.message });
-  }
+    await Order.aggregate()
+      .match({})
+      .lookup({
+        from: "customers",
+        localField: "customerId",
+        foreignField: "_id",
+        as: "customerInfor",
+      })
+      .unwind("customerInfor")
+      .lookup({
+        from: "photographypackages",
+        localField: "packageId",
+        foreignField: "_id",
+        as: "packageInfor",
+      })
+      .unwind("packageInfor")
+      .project({
+        _id: 1,
+        customerFirstName: "$customerInfor.firstName",
+        customerLastName: "$customerInfor.lastName",
+        package: "$packageInfor.package",
+        dateBooking: 1,
+        createOrderDate: 1,
+        status: 1,
+        bookingPlace: 1,
+      })
+      .then((result) => [res.send({ ok: true, results: result })]);
+  } catch {}
 });
 
 router.get(

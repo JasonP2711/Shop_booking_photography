@@ -94,7 +94,7 @@ router.post("/login", async (req, res, next) => {
   try {
     let { EmployeeEmail, password } = req.body;
     const dataInfor = await Employee.findOne({ email: EmployeeEmail });
-    console.log(dataInfor);
+    console.log("data: ", dataInfor);
     if (!dataInfor) {
       return res.json({ message: "email not exist!!" });
     }
@@ -109,7 +109,7 @@ router.post("/login", async (req, res, next) => {
     if (checkPassword) {
       var payload = {
         user: {
-          name: `${dataInfor.firstName} ${dataInfor.lastname}`,
+          name: `${dataInfor.firstName} ${dataInfor.lastName}`,
           email: `${dataInfor.email}`,
         },
         application: "BookingPhotography",
@@ -201,12 +201,12 @@ router.delete(
 
 router.patch(
   "/:id",
-  validateSchema(employeeBodySchema),
+  // validateSchema(employeeBodySchema),
   async (req, res, next) => {
     try {
       const id = req.params.id;
       const itemsBody = req.body;
-      console.log(itemsBody);
+      // console.log(itemsBody);
       let data = await Employee.findByIdAndUpdate(id, itemsBody);
       res.send({ ok: true, message: "update" });
     } catch {
@@ -216,5 +216,18 @@ router.patch(
     }
   }
 );
+
+router.patch("/loginToken/:id", async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const itemsBody = req.body;
+    await Employee.findByIdAndUpdate(id, itemsBody);
+    res.send({ ok: true, message: "update RefreshToken success!!" });
+  } catch {
+    (err) => {
+      return res.sendStatus(500).json({ message: err.message });
+    };
+  }
+});
 
 module.exports = router;

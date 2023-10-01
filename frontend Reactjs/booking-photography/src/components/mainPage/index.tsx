@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { UseAuth } from "../../managerState/useAuth";
 import type { MenuProps } from "antd";
-import { Breadcrumb, Layout, Menu, theme } from "antd";
+import { Breadcrumb, Layout, Menu, theme, Space, Table, Tag } from "antd";
+
 import {
   DesktopOutlined,
   FileOutlined,
@@ -27,6 +30,15 @@ interface employeeTypeData {
   imageUrl: string;
 }
 
+// interface DataType {
+//   key: React.Key;
+//   firstName: string;
+//   lastName: string;
+//   age: number;
+//   address: string;
+//   tags: string[];
+// }
+
 function getItem(
   label: React.ReactNode,
   key: React.Key,
@@ -41,25 +53,30 @@ function getItem(
   } as MenuItem;
 }
 
-const items: MenuItem[] = [
-  getItem("Order", "1", <PieChartOutlined />),
-  getItem("Photography Package", "2", <DesktopOutlined />),
-  getItem("User", "sub1", <UserOutlined />, [
-    //call api employee
-    getItem("Tom", "3"),
-    getItem("Bill", "4"),
-    getItem("Alex", "5"),
-  ]),
-  getItem("Team", "sub2", <TeamOutlined />, [
-    getItem("Team 1", "6"),
-    getItem("Team 2", "8"),
-  ]),
-  getItem("Files", "9", <FileOutlined />),
-];
+// const items: MenuItem[] = [
+//   getItem("Order", "1", <PieChartOutlined />),
+
+//   getItem("User", "sub1", <UserOutlined />, [
+//     //call api employee
+//     getItem("Tom", "3"),
+//     getItem("Bill", "4"),
+//     getItem("Alex", "5"),
+//   ]),
+//   getItem("Team", "sub2", <TeamOutlined />, [
+//     getItem("Team 1", "6"),
+//     getItem("Team 2", "8"),
+//   ]),
+//   getItem("Files", "9", <FileOutlined />),
+// ];
 function Index() {
+  const navigate = useNavigate();
   const [collapsed, setCollapsed] = useState(false);
   const [employee, setEmployee] = useState<Array<employeeTypeData>>([]);
-  const [packagePhoto, setPakagePhoto] = useState<Array<any>>([]);
+  const { auth } = UseAuth((state: any) => state);
+  console.log("auth: ", auth);
+  console.log("user: ", auth?.payload?.firstName);
+
+  // const [packagePhoto, setPakagePhoto] = useState<Array<any>>([]);
 
   useEffect(() => {
     const getEmployees = async () => {
@@ -86,11 +103,48 @@ function Index() {
             theme="dark"
             defaultSelectedKeys={["1"]}
             mode="inline"
-            items={items}
-          />
+            // items={items}
+            className="pt-14"
+          >
+            <Menu.Item
+              key="1"
+              icon={<DesktopOutlined />}
+              onClick={() => navigate("/package")}
+            >
+              Photography Package
+            </Menu.Item>
+            <Menu.Item
+              key="2"
+              icon={<PieChartOutlined />}
+              onClick={() => navigate("/employee")}
+            >
+              Employee
+            </Menu.Item>
+            <Menu.Item
+              key="3"
+              icon={<FileOutlined />}
+              onClick={() => navigate("/order")}
+            >
+              Order
+            </Menu.Item>
+          </Menu>
         </Sider>
         <Layout>
-          <Header style={{ color: "white", fontSize: "25px" }}>MANAGER</Header>
+          <Header
+            style={{ color: "white", fontSize: "25px" }}
+            className="flex justify-between "
+          >
+            <h1>MANAGEMENT</h1>
+            {auth ? (
+              <>
+                <h1>{auth?.payload?.firstName}</h1>
+              </>
+            ) : (
+              <>
+                <h1>Login</h1>
+              </>
+            )}
+          </Header>
           <Header style={{ padding: 0, background: colorBgContainer }} />
           <Content style={{ margin: "0 16px" }}>
             <Breadcrumb style={{ margin: "16px 0" }}>

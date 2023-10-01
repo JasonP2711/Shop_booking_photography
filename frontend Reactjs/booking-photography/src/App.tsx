@@ -1,11 +1,8 @@
 import { useState, useEffect } from "react";
 
+import Index from "./router/index";
 function App() {
-  return (
-    <div>
-      <h1 className="text-6xl font-bold underline">Hello world!</h1>
-    </div>
-  );
+  return <Index />;
 }
 
 export default App;

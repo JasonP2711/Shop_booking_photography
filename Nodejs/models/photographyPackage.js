@@ -9,7 +9,7 @@ const photographyPackageSchema = new Schema({
   imageUrl: { type: String },
   active: { type: Boolean },
   description: { type: String, required: true },
-  listImg: { type: Array, required: true },
+  listImg: { type: Array },
 });
 
 const photographyPackage = model(

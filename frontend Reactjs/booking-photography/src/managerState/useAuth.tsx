@@ -1,41 +1,47 @@
+/////////////////////////////////////////////////////////////////
+
 import { create } from "zustand";
 import axios from "axios";
+import { devtools } from "zustand/middleware";
+import { persist, createJSONStorage } from "zustand/middleware";
 import { useNavigate } from "react-router-dom";
-
 const URL_ENV = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:9000";
-interface islogin {
+interface isLogin {
   email: string;
   password: string;
 }
-const useAuth = create((set: any, get: any) => {
-  const navigate = useNavigate();
+
+export const UseAuth = create((set: any, get: any) => {
   return {
     auth: null,
-    login: async ({ email, password }: islogin) => {
+    Login: async ({ email, password }: isLogin) => {
+      console.log(email, password);
       try {
+        console.log("here!", email, password);
         const loginEmployee = await axios.post(`${URL_ENV}/employee/login`, {
           EmployeeEmail: email,
           password: password,
         });
         if (!loginEmployee) {
-          console.log("failed!!");
+          console.log("failure");
         }
-        await axios.patch(
-          `${URL_ENV}/employee/${loginEmployee.data.resultId}`,
+        console.log("tk: ", loginEmployee.data);
+        const employeeUser = await axios.patch(
+          `${URL_ENV}/employee/loginToken/${loginEmployee.data.resultId}`,
           {
             refreshToken: loginEmployee.data.refreshToken,
           }
         );
-        set({ auth: loginEmployee.data.payload }, false, {
+
+        set({ auth: loginEmployee.data }, false, {
           type: "auth/login-success",
         });
         if (loginEmployee.data.payload._id) {
-          //code
-          navigate("/");
         }
-      } catch {}
+      } catch (err) {
+        console.log("looix");
+        alert("Incorrect password");
+      }
     },
   };
 });
-
-export { useAuth };

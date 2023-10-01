@@ -26,6 +26,36 @@ router.get(
   }
 );
 
+///////////////////////QUERRY
+
+router.get("/querry", async (req, res, next) => {
+  // console.log("here");
+  let { name, priceFrom, priceTo, discountFrom, discountTo, skip, limit } =
+    req.query;
+
+  let querry = {
+    $and: [
+      name ? { package: new RegExp(`${name}`) } : {},
+      priceFrom ? { price: { $gte: Number(priceFrom) } } : {},
+      priceTo ? { price: { $lte: Number(priceTo) } } : {},
+      discountFrom ? { discount: { $gte: Number(discountFrom) } } : {},
+      discountTo ? { discount: { $lte: Number(discountTo) } } : {},
+    ],
+  };
+  let result = await photographyPackage
+    .find(querry)
+    .limit(Number(limit))
+    .skip(Number(skip));
+  let amountResults = await photographyPackage.countDocuments(querry);
+  if (result) {
+    res.send({ oke: true, results: result, numberItems: amountResults });
+  } else {
+    res.sendStatus(400);
+  }
+});
+
+/////////////////////////////////////////////
+
 router.get(
   "/:id",
   validateSchema(photographyPackageIdSchema),
@@ -48,7 +78,8 @@ router.post(
   validateSchema(photographyPackageBodySchema),
   async (req, res, next) => {
     try {
-      const itemsBody = req.body;
+      console.log("here: ", req.body);
+      let itemsBody = req.body;
       let newData = new photographyPackage(itemsBody);
       await newData.save();
       res.send({ ok: true, message: "create success" });

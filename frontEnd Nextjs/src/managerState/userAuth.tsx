@@ -14,7 +14,6 @@ export const userAuth = create(
     persist(
       (set: any, get: any) => {
         let loginData: any = null;
-
         return {
           auth: null,
           login: async ({ email, password }: isLogin) => {
@@ -53,7 +52,7 @@ export const userAuth = create(
           logout: async () => {
             const auth: any = get().auth;
             localStorage.clear();
-            loginData = null;
+            // loginData = null;
             await axios.patch(`${URL_ENV}/customer/${auth.payload._id}`, {
               refreshToken: "",
             });

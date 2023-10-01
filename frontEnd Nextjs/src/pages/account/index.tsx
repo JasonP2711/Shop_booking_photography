@@ -178,7 +178,7 @@ export default function index({ data }: Props) {
         .then((response) => {
           // console.log("hkh:", response.data);
           setOrderIn4(response.data.results);
-          console.log("hkh2:", response.data.results);
+          // console.log("hkh2:", response.data.results);
         });
     };
     getdata();
@@ -193,9 +193,9 @@ export default function index({ data }: Props) {
       await axiosClient
         .patch(`http://localhost:9000/customer/${auth.resultId}`, e)
         .then(async (response) => {
-          console.log(response);
-          console.log("file: ", file);
-          console.log("auth.resultId: ", auth.resultId);
+          // console.log(response);
+          // console.log("file: ", file);
+          // console.log("auth.resultId: ", auth.resultId);
           ///////////////////////////////////update img file
           const formData = new FormData();
           formData.append("file", file);
