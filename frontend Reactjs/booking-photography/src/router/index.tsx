@@ -3,7 +3,7 @@ import axios from "axios";
 import { UseAuth } from "../managerState/useAuth";
 
 import { BrowserRouter, Link, Routes, Route } from "react-router-dom";
-import { Breadcrumb, Layout, theme } from "antd";
+import { Layout, theme } from "antd";
 
 // import App from "../App";
 import Login from "../components/login/index";
@@ -13,34 +13,16 @@ import MenuBar from "../components/menu/index";
 
 const { Header, Content, Footer, Sider } = Layout;
 
-interface employeeTypeData {
-  _id: string;
-  firstName: string;
-  lastName: string;
-  age: number;
-  birthday: Date;
-  email: string;
-  phoneNumber: string;
-  address: string;
-  position: string;
-  imageUrl: string;
-}
-
 function Router() {
   const { auth } = UseAuth((state: any) => state);
+
   const [collapsed, setCollapsed] = useState(false);
-  const [employee, setEmployee] = useState<Array<employeeTypeData>>([]);
   console.log("auth: ", auth);
-  console.log("user: ", auth?.payload?.firstName);
-  useEffect(() => {
-    const getEmployees = async () => {
-      await axios.get(`http://localhost:9000/employee`).then((results) => {
-        console.log("kq:", results?.data?.result);
-        setEmployee(results?.data?.result);
-      });
-    };
-    getEmployees();
-  }, []);
+  console.log("authId: ", auth?.resultId);
+
+  const account = localStorage.getItem("Account");
+  console.log("account:", account);
+
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -48,7 +30,7 @@ function Router() {
     <>
       <div>
         <BrowserRouter>
-          {!auth && (
+          {!account && (
             <Content>
               <Routes>
                 <Route path="/" element={<Login />}></Route>
@@ -58,7 +40,7 @@ function Router() {
           )}
 
           {/* ////////////////////////// */}
-          {auth && (
+          {account && (
             <Layout style={{ minHeight: "100vh" }}>
               <Sider
                 collapsible
@@ -75,9 +57,13 @@ function Router() {
                   className="flex justify-between "
                 >
                   <h1>MANAGEMENT</h1>
-                  {auth ? (
+                  {account ? (
                     <>
-                      <h1>{auth?.payload?.firstName}</h1>
+                      <div className="flex ">
+                        <span>
+                          <h1>{auth?.payload?.firstName}</h1>
+                        </span>
+                      </div>
                     </>
                   ) : (
                     <>
@@ -87,20 +73,6 @@ function Router() {
                 </Header>
                 <Header style={{ padding: 0, background: colorBgContainer }} />
                 <Content style={{ margin: "0 16px" }}>
-                  {/* <Breadcrumb style={{ margin: "16px 0" }}>
-              
-                    <Breadcrumb.Item>User</Breadcrumb.Item>
-                    <Breadcrumb.Item>Bill</Breadcrumb.Item>
-                  </Breadcrumb> */}
-                  {/* <div
-                    style={{
-                      padding: 24,
-                      minHeight: 360,
-                      background: colorBgContainer,
-                    }}
-                  >
-                    Bill is a cat.
-                  </div> */}
                   <Routes>
                     {/* <Route path="/" element={<MainPage />}></Route> */}
                     <Route path="/package" element={<PhotoPackage />}></Route>

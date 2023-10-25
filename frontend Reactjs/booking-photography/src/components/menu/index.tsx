@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Breadcrumb, Layout, Menu, theme, Space, Table, Tag } from "antd";
+import { UseAuth } from "../../managerState/useAuth";
 import {
   DesktopOutlined,
   FileOutlined,
@@ -9,6 +10,7 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 const MenuB = () => {
+  const { logout } = UseAuth((state: any) => state);
   const navigate = useNavigate();
   return (
     <>
@@ -40,6 +42,16 @@ const MenuB = () => {
             onClick={() => navigate("/order")}
           >
             Order
+          </Menu.Item>
+          <Menu.Item
+            key="4"
+            icon={<FileOutlined />}
+            onClick={() => {
+              navigate("/");
+              logout();
+            }}
+          >
+            Logout
           </Menu.Item>
         </Menu>
       </div>

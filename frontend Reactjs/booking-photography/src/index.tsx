@@ -3,8 +3,7 @@ import { BrowserRouter, Link, Routes, Route } from "react-router-dom";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
-import MainPage from "./components/mainPage";
-import Login from "./components/login/index";
+
 import reportWebVitals from "./reportWebVitals";
 
 const root = ReactDOM.createRoot(

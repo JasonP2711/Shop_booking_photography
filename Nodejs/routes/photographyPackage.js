@@ -81,8 +81,8 @@ router.post(
       console.log("here: ", req.body);
       let itemsBody = req.body;
       let newData = new photographyPackage(itemsBody);
-      await newData.save();
-      res.send({ ok: true, message: "create success" });
+      const results = await newData.save();
+      res.send({ ok: true, message: "create success", results: results });
     } catch {
       (err) => {
         res.status(500).json({ error: error.message });
@@ -121,7 +121,7 @@ router.patch(
       const itemsBody = req.body;
       console.log(itemsBody);
       let data = await photographyPackage.findByIdAndUpdate(id, itemsBody);
-      res.send({ ok: true, message: "update" });
+      res.send({ ok: true, message: "update", results: data });
     } catch {
       (err) => {
         return res.status(500).json({ error: error.message });

@@ -40,26 +40,25 @@ var upload = multer({
 var uploadListImg = multer({
   storage: multer.diskStorage({
     contentType: multer.AUTO_CONTENT_TYPE,
-    destination: function async(req, file, callback) {
+    destination: function (req, file, callback) {
       console.log("!!!!!!!!!!!!!!!!!");
       const { id, collectionName } = req.params;
-      console.log(id, collectionName);
+
       const PATH = `${UPLOAD_DIRECTORY}/${collectionName}/listPhoto/${id}`;
       // console.log('PATH', PATH);
       if (!fs.existsSync(PATH)) {
         // Create a directory
         fs.mkdirSync(PATH, { recursive: true });
       }
-
       callback(null, PATH); //cái này tương tự như hàm next() dùng để tiếp tục công việc tiếp theo
     },
     filename: function (req, file, callback) {
       const safeFileName = toSafeFileName(file.originalname);
-      console.log("ten file: ", safeFileName);
       callback(null, safeFileName);
     },
   }),
-});
+}).single("file");
+
 // http://127.0.0.1:9000/upload/categories/63293fea50d2f78624e0c6f3/image
 router.post("/:collectionName/:id/image", async (req, res, next) => {
   const { collectionName, id } = req.params;
@@ -70,7 +69,7 @@ router.post("/:collectionName/:id/image", async (req, res, next) => {
       .status(410)
       .json({ message: `${collectionName} with id ${id} not found` });
   }
-  console.log("here!!!!!!!!!!!!!!!!!");
+  // console.log("here!!!!!!!!!!!!!!!!!");
   upload(req, res, async (err) => {
     if (err instanceof multer.MulterError) {
       res.status(500).json({ type: "MulterError", err: err });
@@ -103,7 +102,7 @@ router.post("/:collectionName/:id/images", async (req, res, next) => {
       .json({ message: `${collectionName} with id ${id} not found` });
   }
 
-  upload(req, res, async (err) => {
+  uploadListImg.array("List_file", 12)(req, res, async (err) => {
     if (err instanceof multer.MulterError) {
       res.status(500).json({ type: "MulterError", err: err });
     } else if (err) {
@@ -112,13 +111,15 @@ router.post("/:collectionName/:id/images", async (req, res, next) => {
       // UPDATE MONGODB
       const newImageUrl = `/uploads/${collectionName}/${id}/${req.file.filename}`;
 
-      let images = found.images;
+      let images = found.listImg;
+      console.log("list img: ", req.file.filename);
       if (!images) {
         images = [];
       }
-      images.push(newImageUrl);
 
-      await updateDocument(id, { images: images }, collectionName);
+      images.push(newImageUrl);
+      // console.log()
+      await updateDocument(id, { listImg: images }, collectionName);
 
       // console.log('host', req.get('host'));
       const publicUrl = `${req.protocol}://${req.get(
@@ -129,67 +130,57 @@ router.post("/:collectionName/:id/images", async (req, res, next) => {
   });
 });
 
-// router.patch("/:collectionName/:id/", async (req, res, next) => {
-//   const { collectionName, id } = req.params;
-//   const found = await findDocument(id, collectionName);
-//   console.log(found);
-//   if (!found) {
-//     return res.sendStatus(400);
-//   }
-//   await updateDocument(id, collectionName,found.imageUrl)
+// router.post("/:collectionName/:id/listImg", async (req, res, next) => {
+//   try {
+//     const { id, collectionName } = req.params;
+//     const found = await findDocument(id, collectionName);
+//     console.log("found: ", found.listImg);
+//     if (!found) {
+//       return res
+//         .status(410)
+//         .json({ message: `${collectionName} with id ${id} not found` });
+//     }
+
+//     uploadListImg.array("file_multiple", 12)(req, res, async (err) => {
+//       console.log("come here!!!");
+//       if (err instanceof multer.MulterError) {
+//         console.log("Error here!!");
+//         res.status(500).json({ type: "MulterError", err: err });
+//       } else if (err) {
+//         res.status(500).json({ type: "UnknownError", err: err });
+//       } else {
+//         console.log("here!!!!!!!!!!!!!!!!!");
+//         console.log("hjdkk: ", req.files);
+//         let list = req.files;
+//         if (!list) {
+//           list = [];
+//         }
+//         // list.push(newImageUrl);
+//         var listPath = list.reduce((prev, nextFileName) => {
+//           prev.push(
+//             `/uploads/${collectionName}/listPhoto/${id}/${nextFileName?.filename}`
+//           );
+//           return prev;
+//         }, []);
+
+//         // UPDATE MONGODB
+//         await updateDocument(id, { listImg: listPath }, collectionName);
+//         //
+//         // console.log('host', req.get('host'));
+//         const listPublicUrl = list.reduce((prev, nextPath) => {
+//           prev.push(
+//             `${req.protocol}://${req.get(
+//               "host"
+//             )}/uploads/${collectionName}/listPhoto/${id}/${nextPath.filename}`
+//           );
+//           return prev;
+//         }, []);
+//         // console.log("abc:", listPublicUrl);
+//         res.status(200).json({ ok: true, publicUrl: listPublicUrl });
+//       }
+//     });
+//   } catch {}
 // });
-
-router.post("/:collectionName/:id/listImg", async (req, res, next) => {
-  try {
-    const { id, collectionName } = req.params;
-    const found = await findDocument(id, collectionName);
-    console.log("found: ", found.listImg);
-    if (!found) {
-      return res
-        .status(410)
-        .json({ message: `${collectionName} with id ${id} not found` });
-    }
-    //đang tìm cách xóa file
-    // console.log("All files deleted successfully");
-    uploadListImg.array("file", 17)(req, res, async (err) => {
-      if (err instanceof multer.MulterError) {
-        // console.log("here!!");
-        res.status(500).json({ type: "MulterError", err: err });
-      } else if (err) {
-        res.status(500).json({ type: "UnknownError", err: err });
-      } else {
-        console.log("here!!!!!!!!!!!!!!!!!");
-        console.log("hjdkk: ", req.files);
-        let list = req.files;
-        if (!list) {
-          list = [];
-        }
-        // list.push(newImageUrl);
-        var listPath = list.reduce((prev, nextFileName) => {
-          prev.push(
-            `/uploads/${collectionName}/listPhoto/${id}/${nextFileName?.filename}`
-          );
-          return prev;
-        }, []);
-
-        console.log("lít: ", listPath);
-        // UPDATE MONGODB
-        await updateDocument(id, { listImg: listPath }, collectionName);
-        //
-        // console.log('host', req.get('host'));
-        const listPublicUrl = list.reduce((prev, nextPath) => {
-          prev.push(
-            `${req.protocol}://${req.get(
-              "host"
-            )}/uploads/${collectionName}/listPhoto/${id}/${nextPath.filename}`
-          );
-          return prev;
-        }, []);
-        res.status(200).json({ ok: true, publicUrl: listPublicUrl });
-      }
-    });
-  } catch {}
-});
 
 function toSafeFileName(fileName) {
   const fileInfo = path.parse(fileName);

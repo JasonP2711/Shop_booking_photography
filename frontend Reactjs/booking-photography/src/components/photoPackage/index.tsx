@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { UseAuth } from "../../managerState/useAuth";
 import axios from "axios";
 import {
   Space,
@@ -46,13 +47,18 @@ type formType = {
 function Index() {
   console.log("reload page.....");
   /////////////STATE///////////////////////////////
+  const { auth } = UseAuth((state: any) => state);
   const [reload, setReload] = useState<number>(0);
   const [dataPackage, setDataPackage] = useState<Array<dataTypePackage>>([]);
   const [searchPackage, setSearchPackage] = useState<Array<dataTypePackage>>(
     []
   );
+  const [file, setFile] = useState<any>(null);
   const [reloadPagination, setReloadPagination] = useState<number>(0);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isModalOpen2, setIsModalOpen2] = useState<boolean>(false);
+  const [isModalOpen3, setIsModalOpen3] = useState<boolean>(false);
+
   const [isOpenFilter, setIsIOpenFilter] = useState<boolean>(false);
   const [isOpenCreate, setIsOpenCreate] = useState<boolean>(false);
   const [fieldUpdate, setFieldupdate] = useState<string>();
@@ -69,6 +75,7 @@ function Index() {
   const [numberPage, setNumberPage] = useState<number>(0);
 
   const [updateForm] = Form.useForm();
+  const [updateListImgForm] = Form.useForm();
   const [createForm] = Form.useForm();
   ////////////////////////////URL_QUERY//////////////////////
 
@@ -251,6 +258,16 @@ function Index() {
           >
             Update
           </Button>
+          <Button
+            onClick={() => {
+              setIsModalOpen3(true);
+              setFieldupdate(record._id);
+              // console.log(":", typeof record._id);
+              updateListImgForm.setFieldsValue(record);
+            }}
+          >
+            Update Images
+          </Button>
         </Space>
       ),
     },
@@ -285,13 +302,43 @@ function Index() {
     setIsOpenCreate(false);
   };
 
+  const handleOk4 = () => {
+    setIsModalOpen3(false);
+  };
+
+  const handleCancel4 = async () => {
+    setIsModalOpen3(false);
+  };
+
   const onFinishUpdate = (value: any) => {
     console.log("valie: ", value);
     const updatePackage = async () => {
       await axios
         .patch(`${URL_ENV}/photographyPackage/${fieldUpdate}`, value)
-        .then((result) => {
+        .then(async (result) => {
           console.log("results: ", result);
+          //upload image
+          ///////////////////////////////////update img file
+          const formData = new FormData();
+          formData.append("file", file);
+          if (file && file.uid && file.type)
+            await axios.post(
+              `http://localhost:9000/upload/photographypackages/${result?.data?.results?._id}/image`,
+              formData
+            );
+          ///////////////////////////////////update list img file
+          const formData2 = new FormData();
+          formData2.append("file", file);
+          if (file && file.uid && file.type)
+            await axios.post(
+              `http://localhost:9000/upload/photographypackages/${result?.data?.results?._id}/images`,
+              formData2
+            );
+
+          //////
+          updateForm.resetFields();
+          // formData.resetFields();
+
           message.success("Update data success!!!");
         })
         .catch(() => {
@@ -300,19 +347,66 @@ function Index() {
     };
     updatePackage();
     setReload((prev) => prev + 1);
+    setFile("");
+  };
+
+  const onFinishUpdateImg = (value: any) => {
+    console.log("valie: ", value);
+    const updatePackage = async () => {
+      await axios
+        .patch(`${URL_ENV}/photographyPackage/${fieldUpdate}`, value)
+        .then(async (result) => {
+          console.log("results: ", result);
+
+          ///////////////////////////////////update list img file
+          const formData2 = new FormData();
+          formData2.append("file", file);
+          if (file && file.uid && file.type)
+            await axios.post(
+              `http://localhost:9000/upload/photographypackages/${result?.data?.results?._id}/images`,
+              formData2
+            );
+
+          //////
+          updateListImgForm.resetFields();
+          // formData.resetFields();
+
+          message.success("Update data success!!!");
+        })
+        .catch(() => {
+          message.warning("Error!!");
+        });
+    };
+    updatePackage();
+    setReload((prev) => prev + 1);
+    setFile("");
   };
 
   const onFinishCreate = async (value: any) => {
     console.log(value);
     await axios
       .post(`${URL_ENV}/photographyPackage`, value)
-      .then((result) => {
+      .then(async (result) => {
         console.log("results: ", result);
+        //upload image
+        ///////////////////////////////////update img file
+        const formData = new FormData();
+        formData.append("file", file);
+        console.log("formData:", formData);
+        if (file && file.uid && file.type)
+          await axios.post(
+            `http://localhost:9000/upload/photographypackages/${result?.data?.results?._id}/image`,
+            formData
+          );
+
+        ////////
+        createForm.resetFields();
         message.success("Create new data success!!!");
       })
       .catch(() => {
         message.warning("Error!!");
       });
+    setFile("");
   };
 
   const deletePackage = async () => {
@@ -341,6 +435,58 @@ function Index() {
   return (
     <>
       <Table pagination={false} columns={columns} dataSource={dataPackage} />
+      {/* ////////////////////////// */}
+
+      <Modal
+        title="Basic Modal"
+        open={isModalOpen3}
+        onOk={handleOk4}
+        onCancel={handleCancel4}
+      >
+        {/* /////////////Form Update data of  package photo/////// */}
+        <Form
+          form={updateListImgForm}
+          name="updateListImgForm"
+          labelCol={{ span: 8 }}
+          wrapperCol={{ span: 16 }}
+          style={{ maxWidth: 600 }}
+          // initialValues={{ remember: true }}
+          onFinish={onFinishUpdateImg}
+          // onFinishFailed={onFinishFailed}
+          // autoComplete="off"
+        >
+          <Form.Item label="Ảnh" name="file">
+            <Upload
+              maxCount={1}
+              listType="picture-card"
+              showUploadList={true}
+              beforeUpload={(file) => {
+                setFile(file);
+                return false;
+              }}
+              onRemove={() => {
+                setFile("");
+              }}
+            >
+              {!file ? (
+                <div>
+                  <PlusOutlined />
+                  <div style={{ marginTop: 8 }}>Upload</div>
+                </div>
+              ) : (
+                ""
+              )}
+            </Upload>
+          </Form.Item>
+
+          <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+            <Button htmlType="submit">Submit</Button>
+          </Form.Item>
+        </Form>
+      </Modal>
+
+      {/* ///////////////// */}
+
       <Modal
         title="Basic Modal"
         open={isModalOpen}
@@ -421,6 +567,31 @@ function Index() {
           >
             <TextArea rows={4} />
           </Form.Item>
+
+          <Form.Item label="Ảnh" name="file">
+            <Upload
+              maxCount={1}
+              listType="picture-card"
+              showUploadList={true}
+              beforeUpload={(file) => {
+                setFile(file);
+                return false;
+              }}
+              onRemove={() => {
+                setFile("");
+              }}
+            >
+              {!file ? (
+                <div>
+                  <PlusOutlined />
+                  <div style={{ marginTop: 8 }}>Upload</div>
+                </div>
+              ) : (
+                ""
+              )}
+            </Upload>
+          </Form.Item>
+
           <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
             <Button htmlType="submit">Submit</Button>
           </Form.Item>
@@ -511,27 +682,28 @@ function Index() {
           >
             <TextArea rows={4} placeholder="Description..." />
           </Form.Item>
-          <Form.Item label="Ảnh" name="file">
+          <Form.Item label="Ảnh" name="file2" valuePropName="fileList">
             <Upload
               maxCount={1}
               listType="picture-card"
+              action="/upload.do"
               showUploadList={true}
               beforeUpload={(file) => {
-                // setFile(file);
+                setFile(file);
                 return false;
               }}
               onRemove={() => {
-                // setFile("");
+                setFile("");
               }}
             >
-              {/* {!file ? (
+              {!file ? (
                 <div>
                   <PlusOutlined />
                   <div style={{ marginTop: 8 }}>Upload</div>
                 </div>
               ) : (
                 ""
-              )} */}
+              )}
             </Upload>
           </Form.Item>
           <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
