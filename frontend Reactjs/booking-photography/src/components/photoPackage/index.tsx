@@ -16,12 +16,14 @@ import {
   Upload,
 } from "antd";
 import type { ColumnsType } from "antd/es/table";
+
 import {
   FilterOutlined,
   UndoOutlined,
   FileAddOutlined,
   PlusOutlined,
 } from "@ant-design/icons";
+import type { UploadFile } from "antd/es/upload/interface";
 
 const { TextArea } = Input;
 
@@ -77,6 +79,7 @@ function Index() {
   const [updateForm] = Form.useForm();
   const [updateListImgForm] = Form.useForm();
   const [createForm] = Form.useForm();
+
   ////////////////////////////URL_QUERY//////////////////////
 
   const URL_FILTER =
@@ -326,14 +329,6 @@ function Index() {
               `http://localhost:9000/upload/photographypackages/${result?.data?.results?._id}/image`,
               formData
             );
-          ///////////////////////////////////update list img file
-          const formData2 = new FormData();
-          formData2.append("file", file);
-          if (file && file.uid && file.type)
-            await axios.post(
-              `http://localhost:9000/upload/photographypackages/${result?.data?.results?._id}/images`,
-              formData2
-            );
 
           //////
           updateForm.resetFields();
@@ -354,7 +349,7 @@ function Index() {
     console.log("valie: ", value);
     const updatePackage = async () => {
       await axios
-        .patch(`${URL_ENV}/photographyPackage/${fieldUpdate}`, value)
+        .get(`${URL_ENV}/photographyPackage/${fieldUpdate}`)
         .then(async (result) => {
           console.log("results: ", result);
 
@@ -455,9 +450,10 @@ function Index() {
           // onFinishFailed={onFinishFailed}
           // autoComplete="off"
         >
-          <Form.Item label="Ảnh" name="file">
+          <Form.Item label="Ảnh" name="List_file">
             <Upload
-              maxCount={1}
+              maxCount={12}
+              multiple={true}
               listType="picture-card"
               showUploadList={true}
               beforeUpload={(file) => {

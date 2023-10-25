@@ -102,14 +102,14 @@ router.post("/:collectionName/:id/images", async (req, res, next) => {
       .json({ message: `${collectionName} with id ${id} not found` });
   }
 
-  uploadListImg.array("List_file", 12)(req, res, async (err) => {
+  uploadListImg(req, res, async (err) => {
     if (err instanceof multer.MulterError) {
       res.status(500).json({ type: "MulterError", err: err });
     } else if (err) {
       res.status(500).json({ type: "UnknownError", err: err });
     } else {
       // UPDATE MONGODB
-      const newImageUrl = `/uploads/${collectionName}/${id}/${req.file.filename}`;
+      const newImageUrl = `/uploads/${collectionName}listPhoto/${id}/${req.file.filename}`;
 
       let images = found.listImg;
       console.log("list img: ", req.file.filename);
