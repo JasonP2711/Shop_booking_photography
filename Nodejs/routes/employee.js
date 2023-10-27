@@ -62,7 +62,7 @@ router.post("/", async (req, res, next) => {
       phoneNumber: data.phoneNumber,
       address: data.address,
       position: data.position,
-      imageUrl: data.imageUrl,
+      // imageUrl: data.imageUrl,
     });
     console.log("hello: ", newEmployee);
     let result = await newEmployee.save();
@@ -208,7 +208,7 @@ router.patch(
       const itemsBody = req.body;
       // console.log(itemsBody);
       let data = await Employee.findByIdAndUpdate(id, itemsBody);
-      res.send({ ok: true, message: "update" });
+      res.send({ ok: true, message: "update", results: data });
     } catch {
       (err) => {
         return res.status(500).json({ error: error.message });

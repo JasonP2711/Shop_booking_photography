@@ -8,6 +8,7 @@ import { Layout, theme } from "antd";
 // import App from "../App";
 import Login from "../components/login/index";
 import PhotoPackage from "../components/photoPackage/index";
+import Emolyee from "../components/employees/index";
 import Order from "../components/order/index";
 import MenuBar from "../components/menu/index";
 
@@ -74,7 +75,7 @@ function Router() {
                 <Header style={{ padding: 0, background: colorBgContainer }} />
                 <Content style={{ margin: "0 16px" }}>
                   <Routes>
-                    {/* <Route path="/" element={<MainPage />}></Route> */}
+                    <Route path="/employee" element={<Emolyee />}></Route>
                     <Route path="/package" element={<PhotoPackage />}></Route>
                     <Route path="/order" element={<Order />}></Route>
                   </Routes>

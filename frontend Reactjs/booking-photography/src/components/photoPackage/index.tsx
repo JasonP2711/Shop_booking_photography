@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { UseAuth } from "../../managerState/useAuth";
+import React, { useCallback, useEffect, useState } from "react";
+// import { UseAuth } from "../../managerState/useAuth";
 import axios from "axios";
 import {
   Space,
@@ -23,7 +23,6 @@ import {
   FileAddOutlined,
   PlusOutlined,
 } from "@ant-design/icons";
-import type { UploadFile } from "antd/es/upload/interface";
 
 const { TextArea } = Input;
 
@@ -49,7 +48,7 @@ type formType = {
 function Index() {
   console.log("reload page.....");
   /////////////STATE///////////////////////////////
-  const { auth } = UseAuth((state: any) => state);
+  // const { auth } = UseAuth((state: any) => state);
   const [reload, setReload] = useState<number>(0);
   const [dataPackage, setDataPackage] = useState<Array<dataTypePackage>>([]);
   const [searchPackage, setSearchPackage] = useState<Array<dataTypePackage>>(
@@ -58,7 +57,7 @@ function Index() {
   const [file, setFile] = useState<any>(null);
   const [reloadPagination, setReloadPagination] = useState<number>(0);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [isModalOpen2, setIsModalOpen2] = useState<boolean>(false);
+  // const [isModalOpen2, setIsModalOpen2] = useState<boolean>(false);
   const [isModalOpen3, setIsModalOpen3] = useState<boolean>(false);
 
   const [isOpenFilter, setIsIOpenFilter] = useState<boolean>(false);
@@ -313,119 +312,126 @@ function Index() {
     setIsModalOpen3(false);
   };
 
-  const onFinishUpdate = (value: any) => {
-    console.log("valie: ", value);
-    const updatePackage = async () => {
+  const onFinishUpdate = useCallback(
+    (value: any) => {
+      console.log("valie: ", value);
+      const updatePackage = async () => {
+        await axios
+          .patch(`${URL_ENV}/photographyPackage/${fieldUpdate}`, value)
+          .then(async (result) => {
+            console.log("results: ", result);
+            //upload image
+            ///////////////////////////////////update img file
+            const formData = new FormData();
+            formData.append("file", file);
+            if (file && file.uid && file.type)
+              await axios.post(
+                `http://localhost:9000/upload/photographypackages/${result?.data?.results?._id}/image`,
+                formData
+              );
+
+            //////
+            updateForm.resetFields();
+            // formData.resetFields();
+
+            message.success("Update data success!!!");
+          })
+          .catch(() => {
+            message.warning("Error!!");
+          });
+      };
+      updatePackage();
+      setReload((prev) => prev + 1);
+      setFile("");
+    },
+    [reload, file, fieldUpdate, updateForm]
+  );
+
+  const onFinishUpdateImg = useCallback(
+    (value: any) => {
+      console.log("valie: ", value);
+      const updatePackage = async () => {
+        await axios
+          .get(`${URL_ENV}/photographyPackage/${fieldUpdate}`)
+          .then(async (result) => {
+            console.log("results: ", result);
+
+            ///////////////////////////////////update list img file
+            const formData2 = new FormData();
+            formData2.append("file", file);
+            if (file && file.uid && file.type)
+              await axios.post(
+                `http://localhost:9000/upload/photographypackages/${result?.data?.results?._id}/images`,
+                formData2
+              );
+
+            //////
+            updateListImgForm.resetFields();
+            // formData.resetFields();
+
+            message.success("Update data success!!!");
+          })
+          .catch(() => {
+            message.warning("Error!!");
+          });
+      };
+      updatePackage();
+      setReload((prev) => prev + 1);
+      setFile("");
+    },
+    [reload]
+  );
+
+  const onFinishCreate = useCallback(
+    async (value: any) => {
+      console.log(value);
       await axios
-        .patch(`${URL_ENV}/photographyPackage/${fieldUpdate}`, value)
+        .post(`${URL_ENV}/photographyPackage`, value)
         .then(async (result) => {
           console.log("results: ", result);
           //upload image
           ///////////////////////////////////update img file
           const formData = new FormData();
           formData.append("file", file);
+          console.log("formData:", formData);
           if (file && file.uid && file.type)
             await axios.post(
               `http://localhost:9000/upload/photographypackages/${result?.data?.results?._id}/image`,
               formData
             );
 
-          //////
-          updateForm.resetFields();
-          // formData.resetFields();
-
-          message.success("Update data success!!!");
+          ////////
+          createForm.resetFields();
+          message.success("Create new data success!!!");
         })
         .catch(() => {
           message.warning("Error!!");
         });
-    };
-    updatePackage();
-    setReload((prev) => prev + 1);
-    setFile("");
-  };
+      setFile("");
+    },
+    [file]
+  );
 
-  const onFinishUpdateImg = (value: any) => {
-    console.log("valie: ", value);
-    const updatePackage = async () => {
-      await axios
-        .get(`${URL_ENV}/photographyPackage/${fieldUpdate}`)
-        .then(async (result) => {
-          console.log("results: ", result);
-
-          ///////////////////////////////////update list img file
-          const formData2 = new FormData();
-          formData2.append("file", file);
-          if (file && file.uid && file.type)
-            await axios.post(
-              `http://localhost:9000/upload/photographypackages/${result?.data?.results?._id}/images`,
-              formData2
-            );
-
-          //////
-          updateListImgForm.resetFields();
-          // formData.resetFields();
-
-          message.success("Update data success!!!");
-        })
-        .catch(() => {
-          message.warning("Error!!");
-        });
-    };
-    updatePackage();
-    setReload((prev) => prev + 1);
-    setFile("");
-  };
-
-  const onFinishCreate = async (value: any) => {
-    console.log(value);
-    await axios
-      .post(`${URL_ENV}/photographyPackage`, value)
-      .then(async (result) => {
-        console.log("results: ", result);
-        //upload image
-        ///////////////////////////////////update img file
-        const formData = new FormData();
-        formData.append("file", file);
-        console.log("formData:", formData);
-        if (file && file.uid && file.type)
-          await axios.post(
-            `http://localhost:9000/upload/photographypackages/${result?.data?.results?._id}/image`,
-            formData
-          );
-
-        ////////
-        createForm.resetFields();
-        message.success("Create new data success!!!");
-      })
-      .catch(() => {
-        message.warning("Error!!");
-      });
-    setFile("");
-  };
-
-  const deletePackage = async () => {
+  const deletePackage = useCallback(async () => {
     await axios.delete(`${URL_ENV}/photographyPackage/${fieldDelete}`);
 
     setReload((prev) => prev + 1);
-  };
+  }, [reload, fieldDelete]);
 
-  const handleSelectChange = async (value: string) => {
-    console.log("value: ", value);
-    let dataPackage;
-    // value === ""
-    //   ? (dataPackage = await axios.get(`${URL_ENV}/photographyPackage`))
-    //   : (dataPackage = await axios.get(
-    //       `${URL_ENV}/photographyPackage/${value}`
-    //     ));
-    if (value === "") {
-      dataPackage = await axios.get(`${URL_ENV}/photographyPackage/${value}`);
-      setDataPackage(dataPackage?.data?.results);
-    } else {
-      dataPackage = await axios.get(`${URL_ENV}/photographyPackage/${value}`);
-      setDataPackage([dataPackage?.data?.results]);
-    }
-  };
+  const handleSelectChange = useCallback(
+    async (value: string) => {
+      // console.log("value: ", value);
+      let dataPackage;
+      if (value === "") {
+        dataPackage = await axios.get(`${URL_ENV}/photographyPackage/${value}`);
+        setDataPackage(dataPackage?.data?.results);
+      } else {
+        dataPackage = await axios.get(`${URL_ENV}/photographyPackage/${value}`);
+        setDataPackage([dataPackage?.data?.results]);
+      }
+    },
+    [dataPackage]
+  );
 
   return (
     <>
