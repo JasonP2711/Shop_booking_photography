@@ -7,6 +7,7 @@ import { Layout, theme } from "antd";
 
 // import App from "../App";
 import Login from "../components/login/index";
+import Home from "../components/home/index";
 import PhotoPackage from "../components/photoPackage/index";
 import Emolyee from "../components/employees/index";
 import Order from "../components/order/index";
@@ -76,7 +77,7 @@ function Router() {
                 <Content style={{ margin: "0 16px" }}>
                   <Routes>
                     <Route path="/employee" element={<Emolyee />}></Route>
-                    <Route path="/package" element={<PhotoPackage />}></Route>
+                    <Route path="/" element={<PhotoPackage />}></Route>
                     <Route path="/order" element={<Order />}></Route>
                   </Routes>
                 </Content>
@@ -89,14 +90,6 @@ function Router() {
         </BrowserRouter>
       </div>
     </>
-    // <BrowserRouter>
-    //   <Routes>
-    //     <Route path="/" element={<MainPage />}></Route>
-    //     <Route path="/login" element={<Login />}></Route>
-    //     <Route path="/app" element={<App />}></Route>
-    //   </Routes>
-
-    // </BrowserRouter>
   );
 }
 

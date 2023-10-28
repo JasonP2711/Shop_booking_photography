@@ -50,6 +50,7 @@ router.get("/", async (req, res, next) => {
         createOrderDate: 1,
         status: 1,
         bookingPlace: 1,
+        note: 1,
       })
       .then((result) => [res.send({ ok: true, results: result })]);
   } catch {}

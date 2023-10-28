@@ -1,13 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Breadcrumb, Layout, Menu, theme, Space, Table, Tag } from "antd";
+import { Menu } from "antd";
 import { UseAuth } from "../../managerState/useAuth";
 import {
   DesktopOutlined,
   FileOutlined,
-  PieChartOutlined,
   TeamOutlined,
-  UserOutlined,
+  LogoutOutlined,
 } from "@ant-design/icons";
 const MenuB = () => {
   const { logout } = UseAuth((state: any) => state);
@@ -19,7 +18,6 @@ const MenuB = () => {
           theme="dark"
           defaultSelectedKeys={["1"]}
           mode="inline"
-          // items={items}
           className="pt-14"
         >
           <Menu.Item
@@ -31,7 +29,7 @@ const MenuB = () => {
           </Menu.Item>
           <Menu.Item
             key="2"
-            icon={<PieChartOutlined />}
+            icon={<TeamOutlined />}
             onClick={() => navigate("/employee")}
           >
             Employee
@@ -45,7 +43,7 @@ const MenuB = () => {
           </Menu.Item>
           <Menu.Item
             key="4"
-            icon={<FileOutlined />}
+            icon={<LogoutOutlined />}
             onClick={() => {
               navigate("/");
               logout();

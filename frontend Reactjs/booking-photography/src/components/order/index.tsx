@@ -14,6 +14,7 @@ interface listTableType {
   package: string;
   status: string;
   _id: string;
+  note: string;
   dateBooking: string[];
 }
 
@@ -102,6 +103,7 @@ function Index({}: Props) {
         <p>Order status: {popupOreder?.status}</p>
         <p>Booking place: {popupOreder?.bookingPlace}</p>
         <p>Create order date: {popupOreder?.createOrderDate}</p>
+        <p>Note: {popupOreder?.note}</p>
       </Modal>
     </>
   );
