@@ -8,6 +8,7 @@ import {
   Button,
   Form,
   Input,
+  Popconfirm,
   Pagination,
   message,
   Select,
@@ -29,12 +30,8 @@ import {
 const URL_ENV = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:9000";
 type Props = {};
 dayjs.extend(customParseFormat);
-const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY", "DD-MM-YYYY", "DD-MM-YY"];
 
-const { RangePicker } = DatePicker;
 const dateFormat = "YYYY/MM/DD";
-const weekFormat = "MM/DD";
-const monthFormat = "YYYY/MM";
 
 interface listTableType {
   firstName: string;
@@ -59,6 +56,7 @@ type formType = {
   imageUrl: string;
   position: string;
   birthday: Date;
+  password: string;
 };
 
 function Index({}: Props) {
@@ -68,7 +66,9 @@ function Index({}: Props) {
 
   const [popupUpdate, setPopupUpdate] = useState<boolean>(false);
   const [popupCreate, setPopupCreate] = useState<boolean>(false);
+  const [fieldDelete, setFieldDelete] = useState<string>();
   const [reload, setReload] = useState<number>(0);
+  const [file, setFile] = useState<any>(null);
 
   ///////////////////////////////
   const [updateForm] = Form.useForm();
@@ -137,6 +137,24 @@ function Index({}: Props) {
           >
             Update
           </Button>
+          <Popconfirm
+            title="Delete the task"
+            description="Are you sure to delete this task?"
+            onConfirm={confirm}
+            onCancel={cancel}
+            okText="Yes"
+            cancelText="No"
+          >
+            <Button
+              danger
+              onClick={() => {
+                console.log("record: ", record);
+                setFieldDelete(record._id);
+              }}
+            >
+              Delete
+            </Button>
+          </Popconfirm>
         </Space>
       ),
     },
@@ -152,6 +170,16 @@ function Index({}: Props) {
     };
     getEmployeeLisst();
   }, [reload]);
+
+  const confirm = (e: any) => {
+    deleteEmployee();
+    message.success("Delete success!");
+  };
+
+  const cancel = (e: any) => {
+    console.log(e);
+    // message.error("Click on No");
+  };
 
   const handleOk = () => {
     setPopupUpdate(false);
@@ -169,7 +197,7 @@ function Index({}: Props) {
     setPopupCreate(false);
   };
 
-  const onFinishUpdate = useCallback((value: formType) => {
+  const onFinishUpdate = (value: formType) => {
     axios
       .patch(`${URL_ENV}/employee/${idEmployeeUpdate}`, value)
       .then((results) => {
@@ -180,22 +208,45 @@ function Index({}: Props) {
       });
     setIdEmployeeUpdate("");
     setReload((pre) => pre + 1);
-  }, []);
-
-  const onFinishCreate = (value: formType) => {
-    console.log("value: ", value);
-    axios
-      .post(`${URL_ENV}/employee`, value)
-      .then((result) => {
-        message.success("Create success!");
-        console.log("results: ", result);
-      })
-      .catch(() => {
-        message.error("Create failure!!!");
-      });
-    createForm.resetFields();
-    setReload((pre) => pre + 1);
   };
+
+  const onFinishCreate = useCallback(
+    async (value: formType) => {
+      // console.log("value: ", value);
+      await axios
+        .post(`${URL_ENV}/employee`, value)
+        .then(async (results) => {
+          console.log("results: ", results);
+          console.log("results: ", results?.data?.results?._id);
+
+          //upload image
+          ///////////////////////////////////update img file
+          const formData = new FormData();
+          formData.append("file", file);
+          console.log("file: ", file);
+          if (file && file.uid && file.type)
+            await axios.post(
+              `http://localhost:9000/upload/employees/${results?.data?.results?._id}/image`,
+              formData
+            );
+          message.success("Create success!");
+        })
+        .catch(() => {
+          message.error("Create failure!!!");
+        });
+      createForm.resetFields();
+      // setFile("");
+      setReload((pre) => pre + 1);
+    },
+    [file]
+  );
+
+  const deleteEmployee = useCallback(async () => {
+    await axios.delete(`${URL_ENV}/employee/${fieldDelete}`);
+
+    setReload((prev) => prev + 1);
+  }, [fieldDelete]);
+
   return (
     <>
       <Table columns={columns} dataSource={listEmployee} />;{/* //// */}
@@ -374,7 +425,7 @@ function Index({}: Props) {
             rules={[
               {
                 required: true,
-                message: "Please input number phone of package!",
+                message: "Please input number phone(03....) of package!",
               },
             ]}
           >
@@ -404,8 +455,20 @@ function Index({}: Props) {
           >
             <Input />
           </Form.Item>
+          <Form.Item<formType>
+            label="Password"
+            name="password"
+            rules={[
+              {
+                required: true,
+                message: "Please input password!",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
 
-          {/* <Form.Item<formType>
+          <Form.Item<formType>
             label="Birthday"
             name="birthday"
             rules={[
@@ -419,13 +482,14 @@ function Index({}: Props) {
               defaultValue={dayjs("2015/01/01", dateFormat)}
               format={dateFormat}
             />
-          </Form.Item> */}
-          {/* <Form.Item label="Ảnh" name="file">
+          </Form.Item>
+          <Form.Item label="Ảnh" name="file">
             <Upload
               maxCount={1}
               listType="picture-card"
               showUploadList={true}
               beforeUpload={(file) => {
+                console.log("setfile: ", file);
                 setFile(file);
                 return false;
               }}
@@ -442,7 +506,7 @@ function Index({}: Props) {
                 ""
               )}
             </Upload>
-          </Form.Item> */}
+          </Form.Item>
 
           <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
             <Button htmlType="submit">Submit</Button>

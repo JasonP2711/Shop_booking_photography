@@ -324,6 +324,7 @@ function Index() {
             ///////////////////////////////////update img file
             const formData = new FormData();
             formData.append("file", file);
+            console.log("file: ", formData);
             if (file && file.uid && file.type)
               await axios.post(
                 `http://localhost:9000/upload/photographypackages/${result?.data?.results?._id}/image`,
@@ -393,7 +394,7 @@ function Index() {
           ///////////////////////////////////update img file
           const formData = new FormData();
           formData.append("file", file);
-          console.log("formData:", formData);
+          console.log("formData:", file);
           if (file && file.uid && file.type)
             await axios.post(
               `http://localhost:9000/upload/photographypackages/${result?.data?.results?._id}/image`,
@@ -684,7 +685,7 @@ function Index() {
           >
             <TextArea rows={4} placeholder="Description..." />
           </Form.Item>
-          <Form.Item label="Ảnh" name="file2" valuePropName="fileList">
+          <Form.Item label="Ảnh" name="file2">
             <Upload
               maxCount={1}
               listType="picture-card"

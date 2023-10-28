@@ -69,7 +69,7 @@ router.post("/:collectionName/:id/image", async (req, res, next) => {
       .status(410)
       .json({ message: `${collectionName} with id ${id} not found` });
   }
-  // console.log("here!!!!!!!!!!!!!!!!!");
+  console.log("here!!!!!!!!!!!!!!!!!");
   upload(req, res, async (err) => {
     if (err instanceof multer.MulterError) {
       res.status(500).json({ type: "MulterError", err: err });
