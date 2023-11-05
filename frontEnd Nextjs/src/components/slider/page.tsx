@@ -3,13 +3,14 @@ import React, { useEffect, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, EffectCoverflow } from "swiper";
 import Image from "next/image";
+import { URL_ENV } from "@/constant/URL";
 
 // Import Swiper styles
 import "swiper/css";
 
 import style from "./style.module.css";
 
-const URL = "http://localhost:9000" || process.env.API_BE_URL;
+// const URL = "http://localhost:9000" || process.env.API_BE_URL;
 
 type Props = {
   Slidedata: any;
@@ -40,7 +41,7 @@ export default function App({ Slidedata }: Props) {
               <>
                 <SwiperSlide className={style.swiper_slide} key={item._id}>
                   <Image
-                    src={`${URL}${item?.imageUrl}`}
+                    src={`${URL_ENV}${item?.imageUrl}`}
                     priority={false} // {false} | {true}
                     alt={item.package}
                     width={500}
