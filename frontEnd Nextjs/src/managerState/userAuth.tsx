@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import axios from "axios";
-import { axiosClient } from "@/libraries/axiosClient";
+import { URL_ENV } from "@/constant/URL";
 import { devtools } from "zustand/middleware";
 import { persist, createJSONStorage } from "zustand/middleware";
 import router from "next/router";
@@ -19,11 +19,11 @@ export const userAuth = create(
         // let loginData: any = null;
         return {
           auth: null,
-          URL_ENV: "https://project-booking-photography.onrender.com",
+          URL_ENV: `${URL_ENV}`,
           login: async ({ email, password }: isLogin) => {
             try {
-              console.log("hjkhjk", email, password);
-              console.log("as", get().URL_ENV);
+              // console.log("hjkhjk", email, password);
+              // console.log("as", get().URL_ENV);
 
               const loginUser = await axios.post(
                 `${get().URL_ENV}/customer/login`,
@@ -55,7 +55,7 @@ export const userAuth = create(
               }
             } catch (err) {
               console.log("looix");
-              alert("Incorrect password");
+              alert("Incorrect password or something was wrong!");
             }
           },
 
