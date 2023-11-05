@@ -2,14 +2,14 @@ import React from "react";
 import Image from "next/image";
 import { Card } from "antd";
 import Style from "./style.module.css";
-// import anh1 from "../../picture/tao-dang-chup-anh-ky-yeu-doi-yody-vn.webp";
+import { URL_ENV } from "@/constant/URL";
 import {
   FacebookFilled,
   InstagramFilled,
   TwitterSquareFilled,
 } from "@ant-design/icons";
 
-const URL = "http://localhost:9000" || process.env.API_BE_URL;
+// const URL = "http://localhost:9000" || process.env.API_BE_URL;
 
 type Props = {
   data: {
@@ -33,7 +33,7 @@ function CardMember({ data }: Props) {
                 className={Style.item__card}
               >
                 <Image
-                  src={`${URL}${item?.imageUrl}`}
+                  src={`${URL_ENV}${item?.imageUrl}`}
                   alt="My Image"
                   width={250}
                   height={200}
