@@ -9,6 +9,7 @@ const verifyToken = require("../middleware/verifyToken");
 const { Customer } = require("../models/index");
 const { findDocument } = require("../helper/MongoDBHelper");
 const { AuthPage } = require("../middleware/AuthPage");
+const cors = require("cors");
 const {
   validateSchema,
   customerBodySchema,
@@ -70,36 +71,41 @@ router.get(
 //Tạo taì khoản mới, nếu tài khoản đã trùng với tài khoản đã được đk trc đó thì báo lỗi,
 //nếu ko trùng thì tiến hành mã hóa password rồi đẩy thông tin customer lên db
 // để đơn giản dễ nhớ thì mọi mật khẩu đều là 123456
-router.post("/", validateSchema(customerBodySchema), async (req, res, next) => {
-  try {
-    const data = req.body;
-    console.log(req.body.email);
-    // const emailCheck = new Customer({
-    //   email: data.email,
-    // });
-    // console.log(emailCheck);
-    const checkEmailExist = await Customer.findOne({ email: data.email });
-    if (checkEmailExist) {
-      return res.json({ message: "exist account" });
-    }
-    const salt = await bcrypt.genSalt(10);
-    const hasPassword = await bcrypt.hash(data.password, salt);
+router.post(
+  "/",
+  cors({ origin: "https://project-booking-photography-final.onrender.com" }),
+  validateSchema(customerBodySchema),
+  async (req, res, next) => {
+    try {
+      const data = req.body;
+      console.log(req.body.email);
+      // const emailCheck = new Customer({
+      //   email: data.email,
+      // });
+      // console.log(emailCheck);
+      const checkEmailExist = await Customer.findOne({ email: data.email });
+      if (checkEmailExist) {
+        return res.json({ message: "exist account" });
+      }
+      const salt = await bcrypt.genSalt(10);
+      const hasPassword = await bcrypt.hash(data.password, salt);
 
-    let newCustomer = new Customer({
-      firstName: data.firstName,
-      lastName: data.lastName,
-      email: data.email,
-      phoneNumber: data.phoneNumber,
-      address: data.address,
-      age: data.age,
-      password: hasPassword,
-    });
-    let result = await newCustomer.save();
-    res.send({ ok: true, result: result });
-  } catch (error) {
-    return res.status(500).json({ error: error.message });
+      let newCustomer = new Customer({
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+        phoneNumber: data.phoneNumber,
+        address: data.address,
+        age: data.age,
+        password: hasPassword,
+      });
+      let result = await newCustomer.save();
+      res.send({ ok: true, result: result });
+    } catch (error) {
+      return res.status(500).json({ error: error.message });
+    }
   }
-});
+);
 
 router.delete(
   "/:id",
