@@ -7,7 +7,7 @@ const nextConfig = {
       "upload.wikimedia.org",
       "vivnpay.vn",
       "encrypted-tbn0.gstatic.com",
-      "project-booking-photography.onrender.com",
+      "project-booking-photography-final.onrender.com",
     ],
 
     loader: "default",
