@@ -9,7 +9,8 @@ import {
   TwitterSquareFilled,
 } from "@ant-design/icons";
 
-const URL = "http://localhost:9000";
+const URL = "http://localhost:9000" || process.env.API_BE_URL;
+
 type Props = {
   data: {
     firstName: string;

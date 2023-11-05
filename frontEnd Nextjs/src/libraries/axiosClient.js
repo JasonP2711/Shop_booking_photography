@@ -4,7 +4,8 @@ import jwtDecode from "jwt-decode";
 // import { API_URL } from "../constants/URLS";
 // API_URL = "http://localhost:9000";
 const axiosClient = axios.create({
-  baseURL: "http://localhost:9000",
+  // baseURL: "http://localhost:9000",
+  baseURL: process.env.API_BE_URL,
   headers: {
     "Content-Type": "application/json", //chỉ định mặc định kiểu dữ liệu được gửi đi là json
     // "Content-Type": "multipart/form-data",
@@ -28,6 +29,7 @@ axiosClient.interceptors.request.use(
   // chúng ta sẽ sử dụng Promise.reject(error) để trả về lỗi đó.
 
   (config) => {
+    console.log("config: ", config);
     if (config.data instanceof FormData) {
       //chỉ định kiểu dữ liệu được gửi đi là FormData nếu nó có kieẻu FormData
       config.headers["Content-Type"] = "multipart/form-data";
@@ -38,7 +40,7 @@ axiosClient.interceptors.request.use(
       const token = window.localStorage.getItem("token");
       // console.log("zzzz: ", token);
       if (token) {
-        // console.log("xyz");
+        console.log("có Token");
         config.headers["Authorization"] = "Bearer " + token;
       }
     }
@@ -68,7 +70,7 @@ axiosClient.interceptors.response.use(
   },
   //trong trường hợp có lỗi
   async (error) => {
-    console.log("lõi");
+    console.log("response axios interceptor error!");
     // console.log(error?.response?.status);
     if (error?.response?.status !== 401) {
       return Promise.reject(error);

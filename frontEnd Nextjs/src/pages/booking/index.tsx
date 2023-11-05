@@ -1,17 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { PlusOutlined } from "@ant-design/icons";
-import {
-  Button,
-  TimePicker,
-  Space,
-  DatePicker,
-  Form,
-  Input,
-  InputNumber,
-  Select,
-  message,
-} from "antd";
+// import { PlusOutlined } from "@ant-design/icons";
+import { URL_ENV } from "@/constant/URL";
+import { Button, DatePicker, Form, Input, Select, message } from "antd";
 // import PhotoPackage from "../photoPackage/[id]";
 import { userAuth } from "../../managerState/userAuth";
 
@@ -24,7 +15,7 @@ import { userAuth } from "../../managerState/userAuth";
 
 type Props = {};
 
-const URL_ENV = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:9000";
+// const URL_ENV = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:9000";
 
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;

@@ -1,0 +1,1 @@
+export const URL_ENV = "https://project-booking-photography.onrender.com" || "http://localhost:9000";

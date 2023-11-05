@@ -5,24 +5,21 @@ import Style from "./navbarStyle.module.css";
 import { Button, message } from "antd";
 import { MenuOutlined } from "@ant-design/icons";
 import { userAuth } from "@/managerState/userAuth";
-const URL_ENV = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:9000";
+
 type Props = {};
 
 function Page({}: Props) {
   const router = useRouter();
   const [turnOn, setTurnOn] = useState<boolean>(false);
-  const [responsive, setResponsive] = useState<boolean>(false);
   const [user, setUser] = useState<any>();
   const { auth } = userAuth((state: any) => state);
   const { logout } = userAuth((state: any) => state);
-  const E_URL = `http://localhost:9000/customer/${auth?.payload?._id}`;
+  const URL_ENV = "http://localhost:9000" || process.env.API_BE_URL;
+  const E_URL = `${URL_ENV}/customer/${auth?.payload?._id}`;
+
   // console.log("auth: ", auth);
   useEffect(() => {
-    if (auth?.payload?._id)
-      axios.get(`${E_URL}`).then((res: any) => {
-        // console.log(res);
-        setUser(res?.data?.result?._id);
-      });
+    if (auth?.payload?._id) setUser(auth?.payload?._id);
     else {
       setUser(null);
     }
@@ -85,7 +82,7 @@ function Page({}: Props) {
               </li>
               <li
                 onClick={() => {
-                  handleNavigation("/photoPackage/6485bfb05570ad344f1a9080");
+                  handleNavigation("/photoPackage/653dee6d5045843a548644b4");
                 }}
               >
                 Tiệc cưới

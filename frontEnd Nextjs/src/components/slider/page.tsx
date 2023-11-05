@@ -1,5 +1,3 @@
-"use client";
-import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -11,7 +9,7 @@ import "swiper/css";
 
 import style from "./style.module.css";
 
-const URL = "http://localhost:9000";
+const URL = "http://localhost:9000" || process.env.API_BE_URL;
 
 type Props = {
   Slidedata: any;
@@ -43,11 +41,10 @@ export default function App({ Slidedata }: Props) {
                 <SwiperSlide className={style.swiper_slide} key={item._id}>
                   <Image
                     src={`${URL}${item?.imageUrl}`}
+                    priority={false} // {false} | {true}
                     alt={item.package}
                     width={500}
                     height={300}
-                    // style={{ width: "500", height: "300" }}
-                    // className="aspect-w-16 aspect-h-9"
                   />
                 </SwiperSlide>
               </>

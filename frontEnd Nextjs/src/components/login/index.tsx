@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import React from "react";
 import { Button, Form, Input } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import style from "./style.module.css";
@@ -9,20 +8,13 @@ import Link from "next/link";
 
 const Login = () => {
   const { login } = userAuth((state: any) => state);
-  const { auth } = userAuth((state: any) => state);
-  const { checkCorrect } = userAuth((state: any) => state);
-
-  const [refresh, setRefresh] = useState(0);
-  const router = useRouter();
+  // const { checkCorrect } = userAuth((state: any) => state);
 
   const onLogin = async (values: any) => {
     // console.log(values);
     const { email, password } = values;
     login({ email, password });
-    if (checkCorrect === false) {
-    }
   };
-  useEffect(() => {}, []);
 
   return (
     <div className={`${style.root} `}>

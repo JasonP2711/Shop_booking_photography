@@ -1,4 +1,3 @@
-import axios from "axios";
 import { axiosClient } from "@/libraries/axiosClient";
 import Image from "next/image";
 import styles from "./page.module.css";
@@ -21,6 +20,9 @@ type Props = {
   data: any;
   staff: any;
 };
+
+// const URL_ENV = process.env.API_BE_URL;
+// const URL_ENV = "http://localhost:9000" || process.env.API_BE_URL;
 
 export default function Home({ data, staff }: Props) {
   const router = useRouter();
@@ -147,17 +149,13 @@ export default function Home({ data, staff }: Props) {
 }
 
 export async function getStaticProps() {
-  const data = await axiosClient
-    .get("http://localhost:9000/photographyPackage")
-    .then((response) => {
-      return response.data;
-    });
+  const data = await axiosClient.get(`/photographyPackage`).then((response) => {
+    return response.data;
+  });
 
-  const staff = await axiosClient
-    .get("http://localhost:9000/employee")
-    .then((response) => {
-      return response.data;
-    });
+  const staff = await axiosClient.get(`/employee`).then((response) => {
+    return response.data;
+  });
 
   return {
     props: {

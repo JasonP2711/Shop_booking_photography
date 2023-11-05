@@ -1,28 +1,19 @@
 import { useState, useEffect } from "react";
-import {
-  Collapse,
-  Divider,
-  Button,
-  DatePicker,
-  Form,
-  Input,
-  Upload,
-  Spin,
-  message,
-} from "antd";
+import { Collapse, Divider, Button, Form, Input, Upload, message } from "antd";
 import axios from "axios";
+import { URL_ENV } from "../../constant/URL";
 import { axiosClient } from "../../libraries/axiosClient";
 import { PlusOutlined } from "@ant-design/icons";
 type Props = { data: any };
 import { userAuth } from "@/managerState/userAuth";
 
 import React from "react";
-import { Space, Table, Tag } from "antd";
-
-const { Column, ColumnGroup } = Table;
+import { Table } from "antd";
+// const URL_ENV =
+//   "https://project-booking-photography.onrender.com" || "http://localhost:9000";
 
 export default function index({ data }: Props) {
-  // console.log("data: ", data);
+  // console.log("data: ", URL_ENV);
   var { auth } = userAuth((state: any) => state);
 
   const [Form1] = Form.useForm();
@@ -164,7 +155,7 @@ export default function index({ data }: Props) {
     const getdata = async () => {
       console.log("call  getdata");
       await axiosClient
-        .get(`http://localhost:9000/customer/${auth?.resultId}`)
+        .get(`${URL_ENV}/customer/${auth?.resultId}`)
         .then((response) => {
           // console.log("hkh:", response.data.result);
           setDataUser(response.data.result);
@@ -174,7 +165,7 @@ export default function index({ data }: Props) {
       console.log("call  getdataOrder");
 
       await axiosClient
-        .get(`http://localhost:9000/order/OrderDetail/${auth.resultId}`)
+        .get(`${URL_ENV}/order/OrderDetail/${auth.resultId}`)
         .then((response) => {
           // console.log("hkh:", response.data);
           setOrderIn4(response.data.results);
@@ -191,7 +182,7 @@ export default function index({ data }: Props) {
     console.log("value: ", value);
     const updateInfor = async (e: any) => {
       await axiosClient
-        .patch(`http://localhost:9000/customer/${auth.resultId}`, e)
+        .patch(`${URL_ENV}/customer/${auth.resultId}`, e)
         .then(async (response) => {
           // console.log(response);
           // console.log("file: ", file);
@@ -202,7 +193,7 @@ export default function index({ data }: Props) {
           console.log(formData);
           if (file && file.uid && file.type)
             await axiosClient.post(
-              `http://localhost:9000/upload/customers/${auth.resultId}/image`,
+              `${URL_ENV}/upload/customers/${auth.resultId}/image`,
               formData
             );
         });
@@ -215,7 +206,7 @@ export default function index({ data }: Props) {
     if (value.password === value.password2) {
       console.log("oke!!");
       const datachange = await axiosClient.patch(
-        `http://localhost:9000/customer/${auth.resultId}`,
+        `${URL_ENV}/customer/${auth.resultId}`,
         value
       );
       if (datachange) {
@@ -226,11 +217,9 @@ export default function index({ data }: Props) {
   };
   const handleDeleteOrder = async (value: any) => {
     setReload((prev) => prev + 1);
-    await axiosClient
-      .delete(`http://localhost:9000/order/${value._id}`)
-      .then((result) => {
-        message.success("Xóa đơn hẹn thành công!!");
-      });
+    await axiosClient.delete(`${URL_ENV}/order/${value._id}`).then((result) => {
+      message.success("Xóa đơn hẹn thành công!!");
+    });
   };
   console.log("state", orderIn4);
   // console.log("state2", dataUser);
@@ -249,7 +238,7 @@ export default function index({ data }: Props) {
         <br />
         <div style={{ color: "Black" }}>
           <img
-            src={`http://localhost:9000/${dataUser.imageUrl}`}
+            src={`https://project-booking-photography.onrender.com/${dataUser.imageUrl}`}
             alt=""
             style={{ height: "180px", width: "150px" }}
           />
@@ -469,18 +458,3 @@ export default function index({ data }: Props) {
     </>
   );
 }
-
-// export async function getStaticProps() {
-//   const { auth } = userAuth((state: any) => state);
-//   const data = await axiosClient
-//     .get(`http://localhost:9000/customer/${auth.resultId}`)
-//     .then((response) => {
-//       return response.data;
-//     });
-
-//   return {
-//     props: {
-//       data: data,
-//     },
-//   };
-// }

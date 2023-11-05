@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import brand1 from "../../picture/kisspng-canon-digital-ixus-canon-eos-logo-camera-canon-logo-5b4ac044e82863.1962864615316255409509.png";
 type Props = {};
-const URL_ENV = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:9000";
+// const URL_ENV = "http://localhost:9000" || process.env.NEXT_PUBLIC_SERVER_URL;
 function Footer({}: Props) {
   return (
     <>

@@ -1,10 +1,13 @@
 import React from "react";
 import axios from "axios";
 import Image from "next/image";
+// import { URL_ENV } from "@/constant/URL";
 import { useRouter } from "next/router";
 import style from "./style.module.css";
 import Brand from "@/components/brand/page";
 import Quality from "@/components/Quality/index";
+
+const URL_ENV = "http://localhost:9000";
 
 type Props = {
   dataPackage: any;
@@ -24,7 +27,7 @@ export default function PhotoPackage({ dataPackage }: Props) {
       >
         <div>
           <Image
-            src={`http://localhost:9000${dataPackage?.results?.imageUrl}`}
+            src={`${URL_ENV}${dataPackage?.results?.imageUrl}`}
             alt="My Image"
             width={500}
             height={300}
@@ -51,7 +54,7 @@ export default function PhotoPackage({ dataPackage }: Props) {
                 alt=""
                 width={290}
                 height={300}
-                src={`http://localhost:9000${item}`}
+                src={`${URL_ENV}${item}`}
                 style={{ marginLeft: "1px", marginTop: "1%" }}
               ></Image>
             );
@@ -63,7 +66,7 @@ export default function PhotoPackage({ dataPackage }: Props) {
           </div>
 
           <Image
-            src={`http://localhost:9000${dataPackage?.results?.imageUrl}`}
+            src={`${URL_ENV}${dataPackage?.results?.imageUrl}`}
             alt=" "
             width={350}
             height={320}
@@ -83,12 +86,10 @@ export default function PhotoPackage({ dataPackage }: Props) {
 
 export async function getStaticPaths() {
   const myPackage = await axios
-    .get("http://localhost:9000/photographyPackage")
+    .get(`${URL_ENV}/photographyPackage`)
     .then((response) => {
       return response.data;
     });
-  // console.log("path");
-  // console.log(myPackage);
   const paths = myPackage?.results?.map((items: any, index: any) => ({
     params: {
       id: `${items._id}`,
@@ -105,7 +106,7 @@ export async function getStaticProps({ params }: any) {
   // If the route is like /posts/1, then params.id is 1
 
   const dataPackage = await axios
-    .get(`http://localhost:9000/photographyPackage/${params.id}`)
+    .get(`${URL_ENV}/photographyPackage/${params.id}`)
     .then((response) => {
       return response.data;
     });
