@@ -360,6 +360,7 @@ function Index() {
             ///////////////////////////////////update list img file
             const formData2 = new FormData();
             formData2.append("file", file);
+            console.log("formData2:", file);
             if (file && file.uid && file.type)
               await axios.post(
                 `http://localhost:9000/upload/photographypackages/${result?.data?.results?._id}/images`,
@@ -380,7 +381,7 @@ function Index() {
       setReload((prev) => prev + 1);
       setFile("");
     },
-    [reload]
+    [reload, file]
   );
 
   const onFinishCreate = useCallback(
@@ -457,7 +458,7 @@ function Index() {
           // onFinishFailed={onFinishFailed}
           // autoComplete="off"
         >
-          <Form.Item label="Ảnh" name="List_file">
+          <Form.Item label="Ảnh" name="file">
             <Upload
               maxCount={12}
               multiple={true}

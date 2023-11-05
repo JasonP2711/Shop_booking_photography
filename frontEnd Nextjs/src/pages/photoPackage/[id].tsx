@@ -1,19 +1,20 @@
 import React from "react";
 import axios from "axios";
 import Image from "next/image";
-// import { URL_ENV } from "@/constant/URL";
+import { URL_ENV } from "@/constant/URL";
 import { useRouter } from "next/router";
 import style from "./style.module.css";
 import Brand from "@/components/brand/page";
 import Quality from "@/components/Quality/index";
 
-const URL_ENV = "http://localhost:9000";
+// const URL_ENV = "http://localhost:9000";
 
 type Props = {
   dataPackage: any;
 };
 
 export default function PhotoPackage({ dataPackage }: Props) {
+  console.log("anh package: ", `${URL_ENV}${dataPackage?.results?.imageUrl}`);
   const router = useRouter();
   console.log("data: ", dataPackage);
   return (

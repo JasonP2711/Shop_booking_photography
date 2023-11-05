@@ -109,7 +109,7 @@ router.post("/:collectionName/:id/images", async (req, res, next) => {
       res.status(500).json({ type: "UnknownError", err: err });
     } else {
       // UPDATE MONGODB
-      const newImageUrl = `/uploads/${collectionName}listPhoto/${id}/${req.file.filename}`;
+      const newImageUrl = `/uploads/${collectionName}/listPhoto/${id}/${req.file.filename}`;
 
       let images = found.listImg;
       console.log("list img: ", req.file.filename);
