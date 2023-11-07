@@ -50,6 +50,7 @@ app.use(
   cors({
     origin: "https://project-booking-photography-final.onrender.com",
     methods: "GET,POST,PATCH,DELETE", // Chỉ cho phép phương thức GET và POST
+    allowedHeaders: ["Content-Type"],
   })
 );
 
