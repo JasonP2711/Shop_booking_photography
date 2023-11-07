@@ -48,7 +48,8 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use(
   cors({
-    origin: "https://project-booking-photography-final.onrender.com",
+    // origin: "https://project-booking-photography-final.onrender.com",
+    origin: "https://shop-booking-photography.vercel.app",
     methods: "GET,POST,PATCH,DELETE", // Chỉ cho phép phương thức GET và POST
     allowedHeaders: ["Content-Type"],
   })
