@@ -46,14 +46,24 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser()); //cookie
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use(
-  cors({
-    // origin: "https://project-booking-photography-final.onrender.com",
-    origin: "https://shop-booking-photography.vercel.app",
-    methods: "GET,POST,PATCH,DELETE", // Chỉ cho phép phương thức GET và POST
-    allowedHeaders: ["Content-Type"],
-  })
-);
+const corsOpts = {
+  origin: "*",
+
+  methods: ["GET", "POST", "DELETE", "PATCH"],
+
+  allowedHeaders: ["Content-Type"],
+};
+
+app.use(cors(corsOpts));
+
+// app.use(
+//   cors({
+//     // origin: "https://project-booking-photography-final.onrender.com",
+//     origin: "https://shop-booking-photography.vercel.app",
+//     methods: "GET,POST,PATCH,DELETE", // Chỉ cho phép phương thức GET và POST
+//     allowedHeaders: ["Content-Type"],
+//   })
+// );
 
 // Passport: jwt
 const opts = {};
