@@ -202,8 +202,10 @@ function Register({}: customertype) {
           </Col>
           <Col span={10} pull={14} className={` ${style.column} `}>
             <div className={style.brand}>
-              <div className={style.title}>JewelShop</div>
-              <div className={style.slogan}>Nâng Tầm thời trang của bạn</div>
+              <div className={style.title}>TiemAnh</div>
+              <div className={style.slogan}>
+                Để những kỹ niệm đẹp luôn theo mãi đời người
+              </div>
             </div>
           </Col>
         </Row>
