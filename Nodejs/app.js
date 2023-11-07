@@ -47,9 +47,12 @@ app.use(cookieParser()); //cookie
 app.use(express.static(path.join(__dirname, "public")));
 
 const corsOpts = {
-  origin: "*", //Tất cả các nguồn có thể truy cập, nếu muốn cụ thể nguồn để bảo mật thì có thể thêm vào đây
+  origin: [
+    "https://shop-booking-photography.vercel.app",
+    "https://provinces.open-api.vn",
+  ], // Danh sách các nguồn cụ thể có thể truy cập ứng dụng
 
-  methods: ["GET", "POST", "DELETE", "PATCH"], //  cho phép phương thức GET và POST DELETE, PATCH
+  methods: ["GET", "POST", "DELETE", "PATCH"], // Cho phép phương thức GET, POST, DELETE, PATCH
 
   allowedHeaders: ["Content-Type"],
 };
