@@ -31,6 +31,19 @@ const { default: mongoose } = require("mongoose");
 const { CONNECTION_STRING } = require("./constant/dbSetting");
 
 const app = express();
+
+const corsOpts = {
+  origin: [
+    "https://shop-booking-photography.vercel.app",
+    "https://provinces.open-api.vn",
+  ], // Danh sách các nguồn cụ thể có thể truy cập ứng dụng
+
+  methods: ["GET", "POST", "DELETE", "PATCH"], // Cho phép phương thức GET, POST, DELETE, PATCH
+
+  allowedHeaders: ["Content-Type"],
+};
+app.use(cors(corsOpts));
+
 app.use(express.static("public"));
 // var path = require('path');
 // app.use('/uploads', express["static"](path.join(__dirname, 'public/uploads')));
@@ -45,17 +58,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser()); //cookie
 app.use(express.static(path.join(__dirname, "public")));
-
-const corsOpts = {
-  origin: [
-    "https://shop-booking-photography.vercel.app",
-    "https://provinces.open-api.vn",
-  ], // Danh sách các nguồn cụ thể có thể truy cập ứng dụng
-
-  methods: ["GET", "POST", "DELETE", "PATCH"], // Cho phép phương thức GET, POST, DELETE, PATCH
-
-  allowedHeaders: ["Content-Type"],
-};
 
 // Passport: jwt
 const opts = {};
@@ -85,8 +87,6 @@ passport.use(
     }
   })
 );
-
-app.use(cors(corsOpts));
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
