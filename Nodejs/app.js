@@ -40,7 +40,7 @@ const corsOpts = {
 
   methods: ["GET", "POST", "DELETE", "PATCH"], // Cho phép phương thức GET, POST, DELETE, PATCH
 
-  allowedHeaders: ["Content-Type"],
+  // allowedHeaders: ["Content-Type"],
 };
 app.use(cors(corsOpts));
 
