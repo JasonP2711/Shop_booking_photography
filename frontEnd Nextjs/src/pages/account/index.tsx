@@ -191,10 +191,17 @@ export default function index({ data }: Props) {
           formData.append("file", file);
           console.log(formData);
           if (file && file.uid && file.type)
-            await axiosClient.post(
-              `${URL_ENV}/upload/customers/${auth.resultId}/image`,
-              formData
-            );
+            await axiosClient
+              .post(
+                `${URL_ENV}/upload/customers/${auth.resultId}/image`,
+                formData
+              )
+              .then(() => {
+                message.success("Thay đổi thông tin thành công!!");
+              })
+              .catch(() => {
+                message.success("Đã có lỗi!!");
+              });
         });
     };
     updateInfor(value);
