@@ -32,17 +32,17 @@ const { CONNECTION_STRING } = require("./constant/dbSetting");
 
 const app = express();
 
-const corsOpts = {
-  origin: [
-    "https://shop-booking-photography.vercel.app",
-    "https://provinces.open-api.vn",
-  ], // Danh sách các nguồn cụ thể có thể truy cập ứng dụng
+// const corsOpts = {
+//   origin: [
+//     "https://shop-booking-photography.vercel.app",
+//     "https://provinces.open-api.vn",
+//   ], // Danh sách các nguồn cụ thể có thể truy cập ứng dụng
 
-  methods: ["GET", "POST", "DELETE", "PATCH"], // Cho phép phương thức GET, POST, DELETE, PATCH
+//   methods: ["GET", "POST", "DELETE", "PATCH"], // Cho phép phương thức GET, POST, DELETE, PATCH
 
-  // allowedHeaders: ["Content-Type"],
-};
-app.use(cors(corsOpts));
+//   // allowedHeaders: ["Content-Type"],
+// };
+// app.use(cors(corsOpts));
 
 app.use(express.static("public"));
 // var path = require('path');
@@ -58,6 +58,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser()); //cookie
 app.use(express.static(path.join(__dirname, "public")));
+
+//Export API
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 
 // Passport: jwt
 const opts = {};
