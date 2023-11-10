@@ -197,6 +197,7 @@ export default function index({ data }: Props) {
                 formData
               )
               .then(() => {
+                console.log("value: cháng");
                 message.success("Thay đổi thông tin thành công!!");
               })
               .catch(() => {
