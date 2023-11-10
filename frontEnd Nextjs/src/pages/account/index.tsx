@@ -166,16 +166,12 @@ export default function index({ data }: Props) {
       await axiosClient
         .get(`${URL_ENV}/order/OrderDetail/${auth.resultId}`)
         .then((response) => {
-          // console.log("hkh:", response.data);
           setOrderIn4(response.data.results);
-          // console.log("hkh2:", response.data.results);
         });
     };
     getdata();
     getdataOrder();
   }, [reload]);
-
-  // console.log("stateuser: ", dataUser);
 
   const handleCreate = (value: any) => {
     console.log("value: ", value);
@@ -183,33 +179,26 @@ export default function index({ data }: Props) {
       await axiosClient
         .patch(`${URL_ENV}/customer/${auth.resultId}`, e)
         .then(async (response) => {
-          // console.log(response);
-          // console.log("file: ", file);
-          // console.log("auth.resultId: ", auth.resultId);
           ///////////////////////////////////update img file
           const formData = new FormData();
-          formData.append("file", file);
+          // formData.append("file", file);
           console.log(formData);
-          if (file && file.uid && file.type)
-            await axiosClient
-              .post(
-                `${URL_ENV}/upload/customers/${auth.resultId}/image`,
-                formData
-              )
-              .then(() => {
-                console.log("value: cháng");
-                message.success("Thay đổi thông tin thành công!!");
-              })
-              .catch(() => {
-                message.success("Đã có lỗi!!");
-              });
+          if (file && file.uid && file.type) {
+            const postImg = await axiosClient.post(
+              `${URL_ENV}/upload/customers/${auth.resultId}/image`,
+              formData
+            );
+            if (postImg) {
+              console.log("value: cháng");
+              message.success("Thay đổi thông tin thành công!!");
+            }
+          }
         });
     };
     updateInfor(value);
   };
 
   const handleChangePassword = async (value: any) => {
-    console.log(value);
     if (value.password === value.password2) {
       console.log("oke!!");
       const datachange = await axiosClient.patch(
