@@ -1,1 +1,1 @@
-export const URL_ENV = "https://project-booking-photography-final.onrender.com" || "http://localhost:9000";
+export const URL_ENV = "https://shop-booking-photography.vercel.app" || "http://localhost:9000";
