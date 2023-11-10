@@ -6,7 +6,6 @@ import { axiosClient } from "../../libraries/axiosClient";
 import { PlusOutlined } from "@ant-design/icons";
 type Props = { data: any };
 import { userAuth } from "@/managerState/userAuth";
-
 import React from "react";
 import { Table } from "antd";
 // const URL_ENV =
@@ -238,7 +237,7 @@ export default function index({ data }: Props) {
         <br />
         <div style={{ color: "Black" }}>
           <img
-            src={`https://project-booking-photography.onrender.com/${dataUser.imageUrl}`}
+            src={`${URL_ENV}/${dataUser.imageUrl}`}
             alt=""
             style={{ height: "180px", width: "150px" }}
           />
