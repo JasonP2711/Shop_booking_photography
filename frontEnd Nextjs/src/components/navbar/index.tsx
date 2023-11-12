@@ -119,7 +119,7 @@ function Page({}: Props) {
               </li>
             </ul>
           </li>
-          {user && (
+          {user != null && (
             <>
               <li
                 onClick={() => {
