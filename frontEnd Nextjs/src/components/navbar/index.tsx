@@ -134,7 +134,7 @@ function Page({}: Props) {
                   logout();
                   setUser(null);
                   message.info("Logout success!");
-                  handleNavigation("/login");
+                  handleNavigation("/");
                 }}
               >
                 Đăng xuất
