@@ -23,7 +23,7 @@ function Page({}: Props) {
     else {
       setUser(null);
     }
-  }, []);
+  }, [user]);
   // console.log("user: ", user);
   const clickMenu = () => {
     // console.log(turnOn, responsive);
@@ -130,10 +130,8 @@ function Page({}: Props) {
               </li>
               <li
                 onClick={() => {
-                  console.log("reload after logout");
                   logout();
                   setUser(null);
-                  message.info("Logout success!");
                   handleNavigation("/");
                 }}
               >

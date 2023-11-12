@@ -110,7 +110,7 @@ function index({ data }: Props) {
           </div>
         </>
       )}
-      <div>alooooooo</div>
+      {/* <div>alooooooo</div> */}
       <button
         style={{ paddingTop: "300px" }}
         onClick={() => {
