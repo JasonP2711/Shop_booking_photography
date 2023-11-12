@@ -1,20 +1,20 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Style from "./navbarStyle.module.css";
 import { Button, message } from "antd";
 import { MenuOutlined } from "@ant-design/icons";
 import { userAuth } from "@/managerState/userAuth";
+import { URL_ENV } from "@/constant/URL";
 
 type Props = {};
 
 function Page({}: Props) {
   const router = useRouter();
   const [turnOn, setTurnOn] = useState<boolean>(false);
-  const [user, setUser] = useState<any>();
+  const [user, setUser] = useState<any>(null);
   const { auth } = userAuth((state: any) => state);
   const { logout } = userAuth((state: any) => state);
-  const URL_ENV = "http://localhost:9000" || process.env.API_BE_URL;
+
   const E_URL = `${URL_ENV}/customer/${auth?.payload?._id}`;
 
   // console.log("auth: ", auth);
@@ -44,7 +44,9 @@ function Page({}: Props) {
   return (
     <>
       <div className={Style.nav}>
-        <div className={Style.title}>Tiệm Ảnh</div>
+        <div className={Style.title} onClick={() => handleNavigation("/")}>
+          Tiệm Ảnh
+        </div>
         <Button
           className={Style.icon__menu}
           icon={<MenuOutlined />}
@@ -130,6 +132,7 @@ function Page({}: Props) {
                 onClick={() => {
                   logout();
                   setUser(null);
+                  message.info("Logout success!");
                   handleNavigation("/login");
                 }}
               >

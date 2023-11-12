@@ -17,6 +17,10 @@
     width: 30%;
     color: #ffffff;
     margin-left: 5%;
+    
+}
+.title:hover{
+    cursor: pointer;
 }
 .icon__menu{
  display: none;
