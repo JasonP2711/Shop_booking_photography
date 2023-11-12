@@ -9,6 +9,7 @@ import { URL_ENV } from "@/constant/URL";
 type Props = {};
 
 function Page({}: Props) {
+  console.log("reload after logout");
   const router = useRouter();
   const [turnOn, setTurnOn] = useState<boolean>(false);
   const [user, setUser] = useState<any>(null);
