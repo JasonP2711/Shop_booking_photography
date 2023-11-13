@@ -8,6 +8,7 @@ const nextConfig = {
       "vivnpay.vn",
       "encrypted-tbn0.gstatic.com",
       "project-booking-photography-final.onrender.com",
+      "shop-booking-photography.vercel.app",
     ],
 
     loader: "default",
