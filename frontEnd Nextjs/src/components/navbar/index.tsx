@@ -41,6 +41,12 @@ function Page({}: Props) {
     const token = window.localStorage.getItem("token");
     // console.log("token: ", token);
   }
+
+  const clickLogout = () => {
+    logout();
+    setUser(null);
+    handleNavigation("/");
+  };
   return (
     <>
       <div className={Style.nav}>
@@ -130,9 +136,7 @@ function Page({}: Props) {
               </li>
               <li
                 onClick={() => {
-                  logout();
-                  setUser(null);
-                  handleNavigation("/");
+                  clickLogout();
                 }}
               >
                 Đăng xuất
