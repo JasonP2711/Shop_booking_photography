@@ -52,6 +52,7 @@ export default function PhotoPackage({ dataPackage }: Props) {
           {dataPackage?.results?.listImg.map((item: string, index: number) => {
             return (
               <Image
+                key={index}
                 alt=""
                 width={290}
                 height={300}

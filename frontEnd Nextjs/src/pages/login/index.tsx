@@ -4,7 +4,7 @@ import Login from "../../components/login/index";
 
 type Props = {};
 
-function index({}: Props) {
+function Index({}: Props) {
   const { auth } = userAuth((state: any) => state);
   const [user, setUser] = useState<any>(auth);
   console.log("looo: ", user);
@@ -12,4 +12,4 @@ function index({}: Props) {
   return <>{!user && <Login />}</>;
 }
 
-export default index;
+export default Index;

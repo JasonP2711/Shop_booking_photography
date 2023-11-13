@@ -20,7 +20,7 @@ type Props = {};
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 
-function index({}: Props) {
+function Index({}: Props) {
   const { auth } = userAuth((state: any) => state);
   const [province, setProvince] = useState<Array<any>>([]);
   const [provinceChoose, setProvinceChoose] = useState();
@@ -139,8 +139,8 @@ function index({}: Props) {
               <Select>
                 <Select.Option value="none">Chọn thể loại chụp</Select.Option>
                 {photographyPackage &&
-                  photographyPackage.map((item: any) => (
-                    <Select.Option value={item._id}>
+                  photographyPackage.map((item: any, index: number) => (
+                    <Select.Option key={index} value={item._id}>
                       {item.package}
                     </Select.Option>
                   ))}
@@ -167,4 +167,4 @@ function index({}: Props) {
   );
 }
 
-export default index;
+export default Index;

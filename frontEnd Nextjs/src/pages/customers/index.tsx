@@ -9,7 +9,7 @@ type Props = {
   data: any;
 };
 
-function index({ data }: Props) {
+function Index({ data }: Props) {
   // var tokena: any;
   // if (typeof window !== "undefined") {
   //   tokena = window.localStorage.getItem("token");
@@ -124,7 +124,7 @@ function index({ data }: Props) {
   );
 }
 
-export default index;
+export default Index;
 
 // export async function getStaticProps() {
 //   const data = await axiosClient

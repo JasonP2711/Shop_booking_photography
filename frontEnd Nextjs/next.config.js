@@ -5,8 +5,6 @@ const nextConfig = {
     domains: [
       "localhost",
       "upload.wikimedia.org",
-      "vivnpay.vn",
-      "encrypted-tbn0.gstatic.com",
       "project-booking-photography-final.onrender.com",
       "shop-booking-photography.vercel.app",
     ],

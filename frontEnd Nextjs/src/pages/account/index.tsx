@@ -11,7 +11,7 @@ import { Table } from "antd";
 // const URL_ENV =
 //   "https://project-booking-photography.onrender.com" || "http://localhost:9000";
 
-export default function index({ data }: Props) {
+export default function Index({ data }: Props) {
   // console.log("data: ", URL_ENV);
   var { auth } = userAuth((state: any) => state);
 
