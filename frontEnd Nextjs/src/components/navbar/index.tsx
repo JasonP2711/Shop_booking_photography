@@ -46,6 +46,7 @@ function Page({}: Props) {
     logout();
     setUser(null);
     handleNavigation("/");
+    window.location.reload();
   };
   return (
     <>
