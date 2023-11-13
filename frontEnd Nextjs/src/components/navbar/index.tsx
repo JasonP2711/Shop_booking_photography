@@ -136,13 +136,13 @@ function Page({}: Props) {
               >
                 Cá nhân
               </li>
-              <li
-              // onClick={() => {
-              //   clickLogout();
-              // }}
+              {/* <li
+              onClick={() => {
+                clickLogout();
+              }}
               >
                 Đăng xuất
-              </li>
+              </li> */}
             </>
           )}
           {user === null && (
