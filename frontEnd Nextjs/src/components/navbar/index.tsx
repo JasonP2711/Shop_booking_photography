@@ -46,7 +46,7 @@ function Page({}: Props) {
     console.log("........./........");
     logout();
     setUser(null);
-    handleNavigation("/");
+    handleNavigation("/login");
     window.location.reload();
   };
   return (
@@ -136,13 +136,13 @@ function Page({}: Props) {
               >
                 Cá nhân
               </li>
-              {/* <li
-              onClick={() => {
-                clickLogout();
-              }}
+              <li
+                onClick={() => {
+                  clickLogout();
+                }}
               >
                 Đăng xuất
-              </li> */}
+              </li>
             </>
           )}
           {user === null && (
