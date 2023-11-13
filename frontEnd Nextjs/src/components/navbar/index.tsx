@@ -137,9 +137,9 @@ function Page({}: Props) {
                 Cá nhân
               </li>
               <li
-                onClick={() => {
-                  clickLogout();
-                }}
+              // onClick={() => {
+              //   clickLogout();
+              // }}
               >
                 Đăng xuất
               </li>
