@@ -23,7 +23,7 @@ function Page({}: Props) {
     else {
       setUser(null);
     }
-  }, [user]);
+  }, [auth]);
   // console.log("user: ", user);
   const clickMenu = () => {
     // console.log(turnOn, responsive);
