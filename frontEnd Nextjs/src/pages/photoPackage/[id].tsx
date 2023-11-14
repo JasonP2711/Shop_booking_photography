@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
 import Image from "next/image";
 import { URL_ENV } from "@/constant/URL";

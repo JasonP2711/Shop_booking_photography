@@ -1,4 +1,7 @@
+import { useEffect } from "react";
 import { axiosClient } from "@/libraries/axiosClient";
+import axios from "axios";
+import { URL_ENV } from "@/constant/URL";
 import Image from "next/image";
 import styles from "./page.module.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -25,6 +28,21 @@ type Props = {
 // const URL_ENV = "http://localhost:9000" || process.env.API_BE_URL;
 
 export default function Home({ data, staff }: Props) {
+  useEffect(() => {
+    const getdata = async () => {
+      const data = await axios
+        .get(`${URL_ENV}/photographyPackage`)
+        .then((response: any) => {
+          console.log("lo:", response.data);
+          return response.data;
+        });
+      const params = data?.results?.map((value: any, index: any) => {
+        path: [{ params: value }];
+      });
+      console.log("dataaaaaa: ", params);
+    };
+    getdata();
+  });
   const router = useRouter();
   return (
     <>

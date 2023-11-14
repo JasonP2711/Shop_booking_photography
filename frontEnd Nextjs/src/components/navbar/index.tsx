@@ -43,7 +43,7 @@ function Page({}: Props) {
   }
 
   const clickLogout = () => {
-    console.log("........./........");
+    // console.log("........./........");
     logout();
     setUser(null);
     handleNavigation("/login");
