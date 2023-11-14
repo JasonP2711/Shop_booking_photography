@@ -133,8 +133,8 @@ function Page({}: Props) {
                 onClick={() => {
                   logout();
                   setUser(null);
-                  message.destroy("Logout!");
                   handleNavigation("/login");
+                  window.location.reload();
                 }}
               >
                 Đăng xuất
