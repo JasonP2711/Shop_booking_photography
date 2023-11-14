@@ -42,13 +42,6 @@ function Page({}: Props) {
     // console.log("token: ", token);
   }
 
-  const clickLogout = () => {
-    // console.log("........./........");
-    logout();
-    setUser(null);
-    handleNavigation("/login");
-    window.location.reload();
-  };
   return (
     <>
       <div className={Style.nav}>
@@ -138,7 +131,10 @@ function Page({}: Props) {
               </li>
               <li
                 onClick={() => {
-                  clickLogout();
+                  logout();
+                  setUser(null);
+                  message.destroy("Logout!");
+                  handleNavigation("/login");
                 }}
               >
                 Đăng xuất

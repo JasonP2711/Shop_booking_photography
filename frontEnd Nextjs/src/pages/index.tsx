@@ -28,21 +28,6 @@ type Props = {
 // const URL_ENV = "http://localhost:9000" || process.env.API_BE_URL;
 
 export default function Home({ data, staff }: Props) {
-  useEffect(() => {
-    const getdata = async () => {
-      const data = await axios
-        .get(`${URL_ENV}/photographyPackage`)
-        .then((response: any) => {
-          console.log("lo:", response.data);
-          return response.data;
-        });
-      const params = data?.results?.map((value: any, index: any) => {
-        path: [{ params: value }];
-      });
-      console.log("dataaaaaa: ", params);
-    };
-    getdata();
-  });
   const router = useRouter();
   return (
     <>
