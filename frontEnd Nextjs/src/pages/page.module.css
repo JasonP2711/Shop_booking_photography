@@ -196,7 +196,35 @@
     /* z-index: 9999; */
   }
 
+  .showSlide{
+    opacity: 0;
+    animation: fadeIn 1s ease-in-out forwards;
+  }
+
+  .lovePackage{
+    opacity: 0;
+    animation: fadeIn 1s ease-in-out forwards;
+  }
+
+  .memberShow{
+    opacity: 0;
+    animation: fadeIn 1s ease-in-out forwards;
+  }
   
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+.memberDiv{
+  height: 400px;
+    width: 100%;
+}
+
   .title__2{
     display: flex;
     justify-content: center;
@@ -205,7 +233,7 @@
   }
   
   .card__member{
-    height: auto;
+    height: 400px;
     width: 100%;
     display: flex;
     flex-wrap: wrap;
@@ -278,6 +306,13 @@
   @media screen and (max-width: 800px) {
     .typePackage{
       display: none;
+    }
+    .card__member{
+      height: auto;
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
     }
     .title{
       color: white;
@@ -358,6 +393,34 @@
       justify-content: center;
       align-items: center;
       height: 200px;
+    }
+    .showSlide{
+      opacity: 0;
+      animation: fadeIn 1s ease-in-out forwards;
+    }
+  
+    .lovePackage{
+      opacity: 0;
+      animation: fadeIn 1s ease-in-out forwards;
+    }
+  
+    .memberShow{
+      opacity: 0;
+      animation: fadeIn 1s ease-in-out forwards;
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    .memberDiv{
+      height: auto;
+      width: 100%;
     }
   
     .element{
