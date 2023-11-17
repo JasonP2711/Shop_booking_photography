@@ -1,11 +1,10 @@
-"use client";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
-// import { API_URL } from "../constants/URLS";
+import { URL_ENV } from "@/constant/URL";
 // API_URL = "http://localhost:9000";
 const axiosClient = axios.create({
   // baseURL: "http://localhost:9000",
-  baseURL: process.env.API_BE_URL,
+  baseURL: URL_ENV,
   headers: {
     "Content-Type": "application/json", //chỉ định mặc định kiểu dữ liệu được gửi đi là json
     // "Content-Type": "multipart/form-data",
