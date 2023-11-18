@@ -52,8 +52,7 @@ router.get(
 router.get(
   "/:id",
   validateSchema(customerIdSchema),
-  // passport.authenticate("jwt", { session: false }),
-  verifyToken,
+  passport.authenticate("jwt", { session: false }),
   async (req, res, next) => {
     try {
       const id = req.params.id;
@@ -62,7 +61,7 @@ router.get(
       });
     } catch {
       (err) => {
-        res.status({ error: error.message });
+        res.status(401).json({ error: error.message });
       };
     }
   }
@@ -176,7 +175,7 @@ router.post("/login", async (req, res, next) => {
       // ACCESS TOKEN
       var secret = jwtSettings.SECRET;
       var token = jwt.sign(payload, secret, {
-        expiresIn: 2 * 60,
+        expiresIn: 30,
         audience: jwtSettings.AUDIENCE,
         issuer: jwtSettings.ISSUER,
         subject: id,
@@ -219,7 +218,7 @@ router.post("/refresh-token", async (req, res, next) => {
       console.log("🍎 decoded", decoded);
       const { id } = decoded;
       const user = await findDocument(id, "customers");
-      console.log("hi", user);
+      // console.log("hi", user);
       if (user) {
         const secret = jwtSettings.SECRET;
 

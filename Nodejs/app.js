@@ -65,13 +65,12 @@ passport.use(
   //JwtStrategy là phương pháp kiểm soát có các option là opts
   new JwtStrategy(opts, async (payload, done) => {
     // payload là data nhận vào, done là một function báo thực hiện xong công việc
-    // console.log(payload);
+    console.log("payload: ", payload);
     const id = payload.sub;
     // console.log(payload);
     const found = await findDocument(id, "customers");
     // console.log('🐣', found)
     if (found) {
-      //subject mà nằm trong WHITE_LIST thì thực thi các công việc ở dưới
       let error = null;
       let user = true;
       return done(error, user);

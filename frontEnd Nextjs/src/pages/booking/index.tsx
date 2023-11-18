@@ -26,6 +26,7 @@ function Index({}: Props) {
   const [provinceChoose, setProvinceChoose] = useState();
   const [district, setDistrict] = useState<Array<any>>([]);
   const [photographyPackage, setPhotographyPackage] = useState<Array<any>>();
+  const [checkFull, setCheckFull] = useState<boolean>(true);
   const [bookingForm] = Form.useForm();
   useEffect(() => {
     console.log("call 1");
@@ -59,6 +60,7 @@ function Index({}: Props) {
   // console.log("province: ", province);
 
   const handleSubmit = (value: any) => {
+    let check = true;
     value.customerId = auth.payload._id;
     value.phone = auth.payload.phoneNumber;
     value = {
@@ -66,8 +68,16 @@ function Index({}: Props) {
       status: "WAITING",
       bookingPlace: `${value.address}-${value.district}-${value.province}`,
     };
-    // console.log("order: ", value);
-
+    console.log("order: ", value);
+    for (const key in value) {
+      if (value.hasOwnProperty(key) && value[key] === undefined) {
+        console.log("aor");
+        message.error("Phải hoàn thành tất cả các thông tin trong form!");
+        check = false;
+        break;
+      }
+    }
+    console.log(check);
     const postOrder = async () => {
       const sub = await axios.post(`${URL_ENV}/order`, value);
       if (sub) {
@@ -75,7 +85,7 @@ function Index({}: Props) {
         bookingForm.resetFields();
       }
     };
-    postOrder();
+    if (check) postOrder();
   };
 
   return (

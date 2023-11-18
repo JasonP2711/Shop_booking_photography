@@ -46,6 +46,7 @@ axiosClient.interceptors.request.use(
     return config;
   },
   (error) => {
+    console.log("errrrr");
     return Promise.reject(error);
   }
 );
@@ -70,7 +71,7 @@ axiosClient.interceptors.response.use(
   //trong trường hợp có lỗi
   async (error) => {
     console.log("response axios interceptor error!");
-    // console.log(error?.response?.status);
+    console.log(error?.response?.status);
     if (error?.response?.status !== 401) {
       return Promise.reject(error);
     }
