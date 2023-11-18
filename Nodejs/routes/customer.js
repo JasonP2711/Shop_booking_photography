@@ -33,7 +33,7 @@ router.get(
   }
 );
 
-//sau khoảng thời gian ở mục expiresIn: 30, thì sẽ ko lấy được dữ liệu
+//sau khoảng thời gian ở mục expiresIn:2p, thì sẽ ko lấy được dữ liệu
 router.get(
   "/",
   validateSchema(getCustomersSchema),
@@ -53,6 +53,7 @@ router.get(
   "/:id",
   validateSchema(customerIdSchema),
   // passport.authenticate("jwt", { session: false }),
+  verifyToken,
   async (req, res, next) => {
     try {
       const id = req.params.id;
