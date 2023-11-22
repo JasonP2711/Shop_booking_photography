@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "cors": "^2.8.5",
+    "nodemailer": "^6.9.7",
     "react-scroll": "^1.9.0"
   }
 }

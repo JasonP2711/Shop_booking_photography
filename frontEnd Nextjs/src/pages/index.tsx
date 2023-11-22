@@ -36,7 +36,7 @@ export default function Home({ data, staff }: Props) {
   const router = useRouter();
   const handleScroll = () => {
     setScrollY(window.scrollY);
-    console.log("scroll: ", window.scrollY);
+
     if (window.scrollY >= 250 && scrollYSlider === false) {
       setScrollYSlider(true);
     }

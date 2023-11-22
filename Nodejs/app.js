@@ -25,6 +25,7 @@ var uploadRouter = require("./routes/upload");
 var authRouter = require("./routes/auth");
 var reTokenRouter = require("./routes/refreshToken");
 var rolesRouter = require("./routes/role");
+var sendEmailRouter = require("./routes/sendEmail");
 
 // MONGOOSE
 const { default: mongoose } = require("mongoose");
@@ -92,7 +93,7 @@ app.use("/upload", uploadRouter);
 app.use("/auth", authRouter);
 app.use("/reToken", reTokenRouter);
 app.use("/roles", rolesRouter);
-
+app.use("/sendEmail", sendEmailRouter);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
