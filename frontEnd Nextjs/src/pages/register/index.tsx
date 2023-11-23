@@ -36,6 +36,7 @@ function Register({}: customertype) {
     await axios
       .post(`${URL_ENV}/customer`, value)
       .then(async (response) => {
+        console.log("ok");
         await axios.post(`${URL_ENV}/sendEmail/signup`, email);
         //
         console.log(response);
