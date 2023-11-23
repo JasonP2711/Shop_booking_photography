@@ -32,10 +32,18 @@ function Register({}: customertype) {
   const handleCreate = async (value: any) => {
     // console.log("dang ky: ", value);
     const { email, password } = value;
-    console.log(`${API_URL}`);
+    console.log(`${URL_ENV}/customer`);
     await axios
-      .post(`${API_URL}`, value)
+      .post(`${URL_ENV}/customer`, value)
       .then(async (response) => {
+        await axios
+          .post(`${URL_ENV}/sendEmail/signup`, email)
+          .then((resp) => {
+            message.success("Đăng ký thành công !!", 1.5);
+          })
+          .catch(() => {
+            message.error("Đăng ký không thành công!!");
+          });
         const { _id } = response.data.result;
         const formData = new FormData();
         formData.append("file", file);
@@ -44,14 +52,6 @@ function Register({}: customertype) {
             .post(`${URL_ENV}/upload/customers/${_id}/image`, formData)
             .then(async (response) => {
               console.log(`${URL_ENV}/upload/customers/${_id}/image`);
-              await axios
-                .post(`${URL_ENV}/sendEmail/signup`, email)
-                .then((resp) => {
-                  message.success("Đăng ký thành công !!", 1.5);
-                })
-                .catch(() => {
-                  message.error("Đăng ký không thành công!!");
-                });
             });
 
         //
@@ -60,7 +60,7 @@ function Register({}: customertype) {
         login({ email, password });
       })
       .catch(() => {
-        message.error("Email đã tồn tại!!");
+        // message.error("Email đã tồn tại!!");
         router.push("/register");
       });
   };
