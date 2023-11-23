@@ -36,31 +36,14 @@ function Register({}: customertype) {
     await axios
       .post(`${URL_ENV}/customer`, value)
       .then(async (response) => {
-        await axios
-          .post(`${URL_ENV}/sendEmail/signup`, email)
-          .then((resp) => {
-            message.success("Đăng ký thành công !!", 1.5);
-          })
-          .catch(() => {
-            message.error("Đăng ký không thành công!!");
-          });
-        const { _id } = response.data.result;
-        const formData = new FormData();
-        formData.append("file", file);
-        if (file && file.uid && file.type)
-          await axios
-            .post(`${URL_ENV}/upload/customers/${_id}/image`, formData)
-            .then(async (response) => {
-              console.log(`${URL_ENV}/upload/customers/${_id}/image`);
-            });
-
+        await axios.post(`${URL_ENV}/sendEmail/signup`, email);
         //
         console.log(response);
-
+        message.success("Đăng ký thành công !!", 1.5);
         login({ email, password });
       })
       .catch(() => {
-        // message.error("Email đã tồn tại!!");
+        message.error("Đăng ký không thành công!!");
         router.push("/register");
       });
   };
@@ -158,40 +141,6 @@ function Register({}: customertype) {
                       ]}
                     >
                       <Input />
-                    </Form.Item>
-
-                    {/* <Form.Item
-                      hasFeedback
-                      label="Ngày sinh"
-                      name="birthday"
-                      rules={[
-                        { required: true, message: "Please enter Birthday" },
-                      ]}
-                    >
-                      <DatePicker placement="bottomLeft" format="DD/MM/YYYY" />
-                    </Form.Item> */}
-                    <Form.Item label="Ảnh" name="file">
-                      <Upload
-                        maxCount={1}
-                        listType="picture-card"
-                        showUploadList={true}
-                        beforeUpload={(file) => {
-                          setFile(file);
-                          return false;
-                        }}
-                        onRemove={() => {
-                          setFile("");
-                        }}
-                      >
-                        {!file ? (
-                          <div>
-                            <PlusOutlined />
-                            <div style={{ marginTop: 8 }}>Upload</div>
-                          </div>
-                        ) : (
-                          ""
-                        )}
-                      </Upload>
                     </Form.Item>
                   </div>
 
