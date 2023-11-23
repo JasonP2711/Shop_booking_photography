@@ -8,7 +8,7 @@ import { userAuth } from "../../../src/managerState/userAuth";
 import { Button, DatePicker, Form, Input, Upload } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import router from "next/router";
-const URL_ENV = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:9000";
+import { URL_ENV } from "@/constant/URL";
 
 type customertype = {
   firstname: string;
@@ -42,13 +42,21 @@ function Register({}: customertype) {
         if (file && file.uid && file.type)
           await axios
             .post(`${URL_ENV}/upload/customers/${_id}/image`, formData)
-            .then((response) => {
+            .then(async (response) => {
               console.log(`${URL_ENV}/upload/customers/${_id}/image`);
+              await axios
+                .post(`${URL_ENV}/sendEmail/signup`, email)
+                .then((resp) => {
+                  message.success("Đăng ký thành công !!", 1.5);
+                })
+                .catch(() => {
+                  message.error("Đăng ký không thành công!!");
+                });
             });
 
         //
         console.log(response);
-        message.success("Đăng ký thành công !!", 1.5);
+
         login({ email, password });
       })
       .catch(() => {
