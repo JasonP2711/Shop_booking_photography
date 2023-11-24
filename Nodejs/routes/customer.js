@@ -73,7 +73,7 @@ router.get(
 // để đơn giản dễ nhớ thì mọi mật khẩu đều là 123456
 router.post(
   "/",
-  cors({ origin: "https://shop-booking-photography.vercel.app/" }),
+  // cors({ origin: "https://shop-booking-photography.vercel.app/" }),
   validateSchema(customerBodySchema),
   async (req, res, next) => {
     try {
