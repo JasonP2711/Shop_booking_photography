@@ -34,8 +34,7 @@ function Register({}: customertype) {
       .post(`${URL_ENV}/customer`, value)
       .then(async (response) => {
         console.log("ok");
-        // await axios.post(`${URL_ENV}/sendEmail/signup`, email);
-        //
+        await axios.post(`${URL_ENV}/sendEmail/signup`, email);
         console.log(response);
         message.success("Đăng ký thành công !!", 1.5);
         login({ email, password });
