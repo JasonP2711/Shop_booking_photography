@@ -30,19 +30,20 @@ function Register({}: customertype) {
     // console.log("dang ky: ", value);
     const { email, password } = value;
     console.log(`${URL_ENV}/customer`);
-    await axios
+    const addCustomer = await axios
       .post(`${URL_ENV}/customer`, value)
       .then(async (response) => {
-        console.log("ok");
-        await axios.post(`${URL_ENV}/sendEmail/signup`, email);
-        console.log(response);
-        message.success("Đăng ký thành công !!", 1.5);
+        console.log("ok", response);
         login({ email, password });
       })
       .catch(() => {
         message.error("Đăng ký không thành công!!");
         router.push("/register");
       });
+    if (addCustomer) {
+      await axios.post(`${URL_ENV}/sendEmail/signup`, email);
+      message.success("Đăng ký thành công !!", 1.5);
+    }
   };
 
   return (
