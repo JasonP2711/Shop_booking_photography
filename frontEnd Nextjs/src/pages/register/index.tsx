@@ -34,16 +34,14 @@ function Register({}: customertype) {
       .post(`${URL_ENV}/customer`, value)
       .then(async (response) => {
         console.log("ok", response);
+        await axios.post(`${URL_ENV}/sendEmail/signup`, { email });
+        message.success("Đăng ký thành công !!", 1.5);
         login({ email, password });
       })
       .catch(() => {
         message.error("Đăng ký không thành công!!");
         router.push("/register");
       });
-    if (addCustomer) {
-      await axios.post(`${URL_ENV}/sendEmail/signup`, email);
-      message.success("Đăng ký thành công !!", 1.5);
-    }
   };
 
   return (
