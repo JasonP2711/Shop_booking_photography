@@ -138,7 +138,7 @@ export default function Home({ data, staff }: Props) {
                     width={300}
                     height={380}
                     onClick={() =>
-                      router.push("/photoPackage/6485bfb05570ad344f1a9080")
+                      router.push("/photoPackage/653dee6d5045843a548644b4")
                     }
                   />
                 </div>

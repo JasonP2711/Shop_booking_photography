@@ -15,8 +15,6 @@ import { userAuth } from "../../managerState/userAuth";
 
 type Props = {};
 
-// const URL_ENV = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:9000";
-
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 
@@ -63,6 +61,7 @@ function Index({}: Props) {
     let check = true;
     value.customerId = auth.payload._id;
     value.phone = auth.payload.phoneNumber;
+    value.email = auth.payload.email;
     value = {
       ...value,
       status: "WAITING",
@@ -79,11 +78,19 @@ function Index({}: Props) {
     }
     console.log(check);
     const postOrder = async () => {
-      const sub = await axios.post(`${URL_ENV}/order`, value);
-      if (sub) {
-        message.success("Đăng ký thành công !!", 1.5);
-        bookingForm.resetFields();
-      }
+      const sub = await axios
+        .post(`${URL_ENV}/order`, value)
+        .then(async (response) => {
+          await axios
+            .post(`${URL_ENV}/sendEmail/booking`, value.email)
+            .then(() => {
+              message.success("Tạo đơn hẹn thành công !!", 1.5);
+              bookingForm.resetFields();
+            });
+        })
+        .catch((err) => {
+          message.error("Tạo đơn hẹn thất bại !!", 1.5);
+        });
     };
     if (check) postOrder();
   };
