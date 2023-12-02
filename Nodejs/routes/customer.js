@@ -126,7 +126,7 @@ router.delete(
 
 router.patch(
   "/:id",
-  passport.authenticate("jwt", { session: false }),
+  // passport.authenticate("jwt", { session: false }),
   validateSchema(customerBodyPatchSchema),
   async (req, res, next) => {
     try {
