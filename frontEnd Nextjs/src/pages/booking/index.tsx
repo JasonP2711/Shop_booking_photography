@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+// import axios from "axios";
+import { axiosClient } from "@/libraries/axiosClient";
 // import { PlusOutlined } from "@ant-design/icons";
 import { URL_ENV } from "@/constant/URL";
 import { Button, DatePicker, Form, Input, Select, message } from "antd";
@@ -37,7 +38,7 @@ function Index({}: Props) {
         });
     };
     const getPackage = async () => {
-      axios.get(`${URL_ENV}/photographyPackage`).then((response) => {
+      axiosClient.get(`${URL_ENV}/photographyPackage`).then((response) => {
         // console.log("package: ", response.data?.results[0]);
         setPhotographyPackage(response.data?.results);
       });
