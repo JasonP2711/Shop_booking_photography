@@ -37,7 +37,7 @@ router.get(
 router.get(
   "/",
   validateSchema(getCustomersSchema),
-  // passport.authenticate("jwt", { session: false }),
+  passport.authenticate("jwt", { session: false }),
   AuthPage(["admin"]),
   async (req, res, next) => {
     try {
@@ -52,7 +52,7 @@ router.get(
 router.get(
   "/:id",
   validateSchema(customerIdSchema),
-  // passport.authenticate("jwt", { session: false }),
+  passport.authenticate("jwt", { session: false }),
   async (req, res, next) => {
     try {
       const id = req.params.id;
@@ -73,7 +73,7 @@ router.get(
 // để đơn giản dễ nhớ thì mọi mật khẩu đều là 123456
 router.post(
   "/",
-  // cors({ origin: "https://shop-booking-photography.vercel.app/" }),
+  passport.authenticate("jwt", { session: false }),
   validateSchema(customerBodySchema),
   async (req, res, next) => {
     try {
@@ -109,6 +109,7 @@ router.post(
 
 router.delete(
   "/:id",
+  passport.authenticate("jwt", { session: false }),
   validateSchema(customerIdSchema),
   async (req, res, next) => {
     try {
@@ -125,6 +126,7 @@ router.delete(
 
 router.patch(
   "/:id",
+  passport.authenticate("jwt", { session: false }),
   validateSchema(customerBodyPatchSchema),
   async (req, res, next) => {
     try {

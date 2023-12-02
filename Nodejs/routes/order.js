@@ -25,7 +25,7 @@ const {
 
 router.get(
   "/",
-  // passport.authenticate("jwt", { session: false }),
+  passport.authenticate("jwt", { session: false }),
   async (req, res, next) => {
     try {
       await Order.aggregate()
@@ -62,7 +62,7 @@ router.get(
 
 router.get(
   "/OrderDetail/:id",
-  // passport.authenticate("jwt", { session: false }),
+  passport.authenticate("jwt", { session: false }),
   async (req, res, next) => {
     try {
       const { id } = req.params;
@@ -143,7 +143,7 @@ router.get(
 
 router.get(
   "/:id",
-  // passport.authenticate("jwt", { session: false }),
+  passport.authenticate("jwt", { session: false }),
   validateSchema(OrderIdSchema),
   async (req, res, next) => {
     try {
@@ -159,7 +159,7 @@ router.get(
 
 router.delete(
   "/:id",
-  // passport.authenticate("jwt", { session: false }),
+  passport.authenticate("jwt", { session: false }),
   validateSchema(OrderIdSchema),
   async (req, res, next) => {
     try {
@@ -175,7 +175,7 @@ router.delete(
 
 router.post(
   "/",
-  // passport.authenticate("jwt", { session: false }),
+  passport.authenticate("jwt", { session: false }),
   validateSchema(OrderBodySchema),
   async (req, res, next) => {
     try {
@@ -193,7 +193,7 @@ router.post(
 
 router.patch(
   "/:id",
-  // passport.authenticate("jwt", { session: false }),
+  passport.authenticate("jwt", { session: false }),
   validateSchema(OrderBodySchema),
   async (req, res, next) => {
     try {
