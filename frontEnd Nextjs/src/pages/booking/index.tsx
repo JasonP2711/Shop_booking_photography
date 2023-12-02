@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { axiosClient } from "@/libraries/axiosClient";
 import { URL_ENV } from "@/constant/URL";
 import { Button, DatePicker, Form, Input, Select, message } from "antd";
 // import PhotoPackage from "../photoPackage/[id]";
@@ -76,10 +77,10 @@ function Index({}: Props) {
     }
     console.log(check);
     const postOrder = async () => {
-      const sub = await axios
+      const sub = await axiosClient
         .post(`${URL_ENV}/order`, value)
         .then(async (response) => {
-          await axios
+          await axiosClient
             .post(`${URL_ENV}/sendEmail/booking`, {
               email: value.email,
               package: auth.payload.phoneNumber,
