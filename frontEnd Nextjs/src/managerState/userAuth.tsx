@@ -5,8 +5,6 @@ import { devtools } from "zustand/middleware";
 import { persist, createJSONStorage } from "zustand/middleware";
 import router from "next/router";
 
-// const URL_ENV = "http://localhost:9000" || process.env.API_BE_URL;
-// const URL_ENV = process.env.API_BE_URL;
 interface isLogin {
   email: string;
   password: string;
@@ -15,16 +13,11 @@ export const userAuth = create(
   devtools(
     persist(
       (set: any, get: any) => {
-        // console.log("URL_ENV: ", URL_ENV);
-        // let loginData: any = null;
         return {
           auth: null,
           URL_ENV: `${URL_ENV}`,
           login: async ({ email, password }: isLogin) => {
             try {
-              // console.log("hjkhjk", email, password);
-              // console.log("as", get().URL_ENV);
-
               const loginUser = await axios.post(
                 `${get().URL_ENV}/customer/login`,
                 {
@@ -35,7 +28,6 @@ export const userAuth = create(
               if (!loginUser) {
                 console.log("failure");
               }
-              // console.log("tk: ", loginUser);
               await axios.patch(
                 `${get().URL_ENV}/customer/${loginUser.data.payload._id}`,
                 {

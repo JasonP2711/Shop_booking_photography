@@ -82,7 +82,12 @@ function Index({}: Props) {
         .post(`${URL_ENV}/order`, value)
         .then(async (response) => {
           await axios
-            .post(`${URL_ENV}/sendEmail/booking`, value.email)
+            .post(`${URL_ENV}/sendEmail/booking`, {
+              email: value.email,
+              package: auth.payload.phoneNumber,
+              timeBooking: value.dateBooking,
+              place: `${value.address}-${value.district}-${value.province}`,
+            })
             .then(() => {
               message.success("Tạo đơn hẹn thành công !!", 1.5);
               bookingForm.resetFields();
