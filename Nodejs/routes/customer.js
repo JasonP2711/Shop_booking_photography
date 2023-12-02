@@ -37,7 +37,7 @@ router.get(
 router.get(
   "/",
   validateSchema(getCustomersSchema),
-  passport.authenticate("jwt", { session: false }),
+  // passport.authenticate("jwt", { session: false }),
   AuthPage(["admin"]),
   async (req, res, next) => {
     try {
@@ -52,7 +52,7 @@ router.get(
 router.get(
   "/:id",
   validateSchema(customerIdSchema),
-  passport.authenticate("jwt", { session: false }),
+  // passport.authenticate("jwt", { session: false }),
   async (req, res, next) => {
     try {
       const id = req.params.id;
@@ -153,7 +153,7 @@ router.post("/login", async (req, res, next) => {
   try {
     const { email, password } = req.body;
     const dataLogin = await Customer.findOne({ email });
-    // console.log("data: ", dataLogin);
+
     // console.log("email: ", dataLogin.email);
     const id = dataLogin._id.toString();
     if (!dataLogin) {
@@ -188,9 +188,10 @@ router.post("/login", async (req, res, next) => {
         },
         secret,
         {
-          expiresIn: "1d", // expires in 24 hours (24 x 60 x 60)
+          expiresIn: 60 * 2, // expires in 24 hours (24 x 60 x 60)
         }
       );
+      console.log("data: ", dataLogin);
       //nếu xác thực theo header(không dùng theo phương thức barer token) thì dùng thêm middleware verifyToken
       return res.header("token", token).status(200).json({
         resultId: dataLogin._id,

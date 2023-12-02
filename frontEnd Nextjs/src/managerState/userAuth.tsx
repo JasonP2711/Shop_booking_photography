@@ -18,6 +18,9 @@ export const userAuth = create(
           URL_ENV: `${URL_ENV}`,
           login: async ({ email, password }: isLogin) => {
             try {
+              console.log("sdf: ", email, password);
+              console.log("as", get().URL_ENV);
+              console.log("as", URL_ENV);
               const loginUser = await axios.post(
                 `${get().URL_ENV}/customer/login`,
                 {

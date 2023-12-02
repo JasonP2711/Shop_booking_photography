@@ -1,4 +1,5 @@
 const express = require("express");
+var passport = require("passport");
 const router = express.Router();
 const { photographyPackage } = require("../models");
 const {
@@ -12,6 +13,7 @@ const { response } = require("../app");
 
 router.get(
   "/",
+  // passport.authenticate("jwt", { session: false }),
   validateSchema(photographyPackageSchema),
   async (req, res, next) => {
     try {
@@ -28,36 +30,41 @@ router.get(
 
 ///////////////////////QUERRY
 
-router.get("/querry", async (req, res, next) => {
-  // console.log("here");
-  let { name, priceFrom, priceTo, discountFrom, discountTo, skip, limit } =
-    req.query;
+router.get(
+  "/querry",
+  // passport.authenticate("jwt", { session: false }),
+  async (req, res, next) => {
+    // console.log("here");
+    let { name, priceFrom, priceTo, discountFrom, discountTo, skip, limit } =
+      req.query;
 
-  let querry = {
-    $and: [
-      name ? { package: new RegExp(`${name}`) } : {},
-      priceFrom ? { price: { $gte: Number(priceFrom) } } : {},
-      priceTo ? { price: { $lte: Number(priceTo) } } : {},
-      discountFrom ? { discount: { $gte: Number(discountFrom) } } : {},
-      discountTo ? { discount: { $lte: Number(discountTo) } } : {},
-    ],
-  };
-  let result = await photographyPackage
-    .find(querry)
-    .limit(Number(limit))
-    .skip(Number(skip));
-  let amountResults = await photographyPackage.countDocuments(querry);
-  if (result) {
-    res.send({ oke: true, results: result, numberItems: amountResults });
-  } else {
-    res.sendStatus(400);
+    let querry = {
+      $and: [
+        name ? { package: new RegExp(`${name}`) } : {},
+        priceFrom ? { price: { $gte: Number(priceFrom) } } : {},
+        priceTo ? { price: { $lte: Number(priceTo) } } : {},
+        discountFrom ? { discount: { $gte: Number(discountFrom) } } : {},
+        discountTo ? { discount: { $lte: Number(discountTo) } } : {},
+      ],
+    };
+    let result = await photographyPackage
+      .find(querry)
+      .limit(Number(limit))
+      .skip(Number(skip));
+    let amountResults = await photographyPackage.countDocuments(querry);
+    if (result) {
+      res.send({ oke: true, results: result, numberItems: amountResults });
+    } else {
+      res.sendStatus(400);
+    }
   }
-});
+);
 
 /////////////////////////////////////////////
 
 router.get(
   "/:id",
+  // passport.authenticate("jwt", { session: false }),
   validateSchema(photographyPackageIdSchema),
   async (req, res, next) => {
     try {
@@ -75,6 +82,7 @@ router.get(
 
 router.post(
   "/",
+  // passport.authenticate("jwt", { session: false }),
   validateSchema(photographyPackageBodySchema),
   async (req, res, next) => {
     try {
@@ -92,6 +100,7 @@ router.post(
 );
 router.delete(
   "/:id",
+  // passport.authenticate("jwt", { session: false }),
   validateSchema(photographyPackageIdSchema),
   async (req, res, next) => {
     try {
@@ -114,6 +123,7 @@ router.delete(
 
 router.patch(
   "/:id",
+  // passport.authenticate("jwt", { session: false }),
   validateSchema(phoneNumberUpdateSchema),
   async (req, res, next) => {
     try {

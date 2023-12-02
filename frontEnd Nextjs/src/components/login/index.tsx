@@ -11,7 +11,7 @@ const Login = () => {
   // const { checkCorrect } = userAuth((state: any) => state);
 
   const onLogin = async (values: any) => {
-    // console.log(values);
+    console.log(values);
     const { email, password } = values;
     login({ email, password });
   };

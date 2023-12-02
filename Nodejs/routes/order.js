@@ -23,38 +23,42 @@ const {
 //   }
 // });
 
-router.get("/", async (req, res, next) => {
-  try {
-    await Order.aggregate()
-      .match({})
-      .lookup({
-        from: "customers",
-        localField: "customerId",
-        foreignField: "_id",
-        as: "customerInfor",
-      })
-      .unwind("customerInfor")
-      .lookup({
-        from: "photographypackages",
-        localField: "packageId",
-        foreignField: "_id",
-        as: "packageInfor",
-      })
-      .unwind("packageInfor")
-      .project({
-        _id: 1,
-        customerFirstName: "$customerInfor.firstName",
-        customerLastName: "$customerInfor.lastName",
-        package: "$packageInfor.package",
-        dateBooking: 1,
-        createOrderDate: 1,
-        status: 1,
-        bookingPlace: 1,
-        note: 1,
-      })
-      .then((result) => [res.send({ ok: true, results: result })]);
-  } catch {}
-});
+router.get(
+  "/",
+  // passport.authenticate("jwt", { session: false }),
+  async (req, res, next) => {
+    try {
+      await Order.aggregate()
+        .match({})
+        .lookup({
+          from: "customers",
+          localField: "customerId",
+          foreignField: "_id",
+          as: "customerInfor",
+        })
+        .unwind("customerInfor")
+        .lookup({
+          from: "photographypackages",
+          localField: "packageId",
+          foreignField: "_id",
+          as: "packageInfor",
+        })
+        .unwind("packageInfor")
+        .project({
+          _id: 1,
+          customerFirstName: "$customerInfor.firstName",
+          customerLastName: "$customerInfor.lastName",
+          package: "$packageInfor.package",
+          dateBooking: 1,
+          createOrderDate: 1,
+          status: 1,
+          bookingPlace: 1,
+          note: 1,
+        })
+        .then((result) => [res.send({ ok: true, results: result })]);
+    } catch {}
+  }
+);
 
 router.get(
   "/OrderDetail/:id",
@@ -137,43 +141,59 @@ router.get(
   }
 );
 
-router.get("/:id", validateSchema(OrderIdSchema), async (req, res, next) => {
-  try {
-    const id = req.params.id;
-    await Order.findById(id).then((response) => {
-      res.send({ ok: true, results: response });
-    });
-  } catch (error) {
-    return res.status(500).json({ error: error.message });
+router.get(
+  "/:id",
+  // passport.authenticate("jwt", { session: false }),
+  validateSchema(OrderIdSchema),
+  async (req, res, next) => {
+    try {
+      const id = req.params.id;
+      await Order.findById(id).then((response) => {
+        res.send({ ok: true, results: response });
+      });
+    } catch (error) {
+      return res.status(500).json({ error: error.message });
+    }
   }
-});
+);
 
-router.delete("/:id", validateSchema(OrderIdSchema), async (req, res, next) => {
-  try {
-    const id = req.params.id;
-    await Order.findByIdAndDelete(id).then((response) => {
-      res.send({ ok: true, message: "delete success!" });
-    });
-  } catch (err) {
-    return res.status(500).json({ error: error.message });
+router.delete(
+  "/:id",
+  // passport.authenticate("jwt", { session: false }),
+  validateSchema(OrderIdSchema),
+  async (req, res, next) => {
+    try {
+      const id = req.params.id;
+      await Order.findByIdAndDelete(id).then((response) => {
+        res.send({ ok: true, message: "delete success!" });
+      });
+    } catch (err) {
+      return res.status(500).json({ error: error.message });
+    }
   }
-});
+);
 
-router.post("/", validateSchema(OrderBodySchema), async (req, res, next) => {
-  try {
-    const data = req.body;
-    console.log(data);
-    let newData = new Order(data);
-    await newData.save().then((response) => {
-      res.send({ ok: true, results: response });
-    });
-  } catch (error) {
-    return res.status(500).json({ error: error.message });
+router.post(
+  "/",
+  // passport.authenticate("jwt", { session: false }),
+  validateSchema(OrderBodySchema),
+  async (req, res, next) => {
+    try {
+      const data = req.body;
+      console.log(data);
+      let newData = new Order(data);
+      await newData.save().then((response) => {
+        res.send({ ok: true, results: response });
+      });
+    } catch (error) {
+      return res.status(500).json({ error: error.message });
+    }
   }
-});
+);
 
 router.patch(
   "/:id",
+  // passport.authenticate("jwt", { session: false }),
   validateSchema(OrderBodySchema),
   async (req, res, next) => {
     try {

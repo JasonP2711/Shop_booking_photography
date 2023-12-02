@@ -10,15 +10,7 @@ const axiosClient = axios.create({
     // "Content-Type": "multipart/form-data",
   },
 });
-// trong interceptors có 2 loại, một là request, 2 là response
-//Request interceptors: Được sử dụng để can thiệp vào quá trình gửi yêu cầu. Bạn có thể đăng ký nhiều interceptor trước khi yêu cầu được gửi đi.
-//Response interceptors: Được sử dụng để can thiệp vào quá trình nhận phản hồi từ máy chủ. Bạn có thể đăng ký nhiều interceptor sau khi nhận được phản hồi.
 
-//có cái này ta không phải thêm passport.authenticate("jwt", { session: false }), ở các method này ở các router
-
-//interceptors đây là middleware, tất cả các resonse đều qua interceptors
-
-//qua page employee thì nó call api nên nó phải có interceptors.request, trước khi bên employee request thì nó chui vào hàm này
 // REQUEST
 
 // Request interceptor
@@ -129,3 +121,13 @@ axiosClient.interceptors.response.use(
 );
 
 export { axiosClient };
+
+// trong interceptors có 2 loại, một là request, 2 là response
+//Request interceptors: Được sử dụng để can thiệp vào quá trình gửi yêu cầu. Bạn có thể đăng ký nhiều interceptor trước khi yêu cầu được gửi đi.
+//Response interceptors: Được sử dụng để can thiệp vào quá trình nhận phản hồi từ máy chủ. Bạn có thể đăng ký nhiều interceptor sau khi nhận được phản hồi.
+
+//có cái này ta không phải thêm passport.authenticate("jwt", { session: false }), ở các method này ở các router
+
+//interceptors đây là middleware, tất cả các resonse đều qua interceptors
+
+//qua page employee thì nó call api nên nó phải có interceptors.request, trước khi bên employee request thì nó chui vào hàm này
