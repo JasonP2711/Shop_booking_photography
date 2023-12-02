@@ -188,7 +188,7 @@ router.post("/login", async (req, res, next) => {
         },
         secret,
         {
-          expiresIn: "1d", // expires in 24 hours (24 x 60 x 60)
+          expiresIn: "60*2", // expires in 24 hours (24 x 60 x 60)
         }
       );
       //nếu xác thực theo header(không dùng theo phương thức barer token) thì dùng thêm middleware verifyToken

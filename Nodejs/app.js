@@ -22,7 +22,6 @@ var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var orderRouter = require("./routes/order");
 var uploadRouter = require("./routes/upload");
-var authRouter = require("./routes/auth");
 var reTokenRouter = require("./routes/refreshToken");
 var rolesRouter = require("./routes/role");
 var sendEmailRouter = require("./routes/sendEmail");
@@ -90,7 +89,6 @@ app.use("/order", orderRouter);
 app.use("/employee", employeeRouter);
 app.use("/photographyPackage", photographyPackageRouter);
 app.use("/upload", uploadRouter);
-app.use("/auth", authRouter);
 app.use("/reToken", reTokenRouter);
 app.use("/roles", rolesRouter);
 app.use("/sendEmail", sendEmailRouter);
@@ -114,3 +112,6 @@ app.use(function (err, req, res, next) {
 });
 
 module.exports = app;
+
+//link authenicate
+//https://viblo.asia/p/authorization-va-authenticate-api-nodejs-voi-jwt-jvEla3exKkw
