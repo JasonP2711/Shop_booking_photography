@@ -71,7 +71,6 @@ function Index({}: Props) {
     console.log("order: ", value);
     for (const key in value) {
       if (value.hasOwnProperty(key) && value[key] === undefined) {
-        console.log("aor");
         message.error("Phải hoàn thành tất cả các thông tin trong form!");
         check = false;
         break;
@@ -79,7 +78,7 @@ function Index({}: Props) {
     }
     console.log(check);
     const postOrder = async () => {
-      const sub = await axios
+      const sub = await axiosClient
         .post(`${URL_ENV}/order`, value)
         .then(async (response) => {
           await axios
