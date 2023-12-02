@@ -13,7 +13,7 @@ const { response } = require("../app");
 
 router.get(
   "/",
-  passport.authenticate("jwt", { session: false }),
+  // passport.authenticate("jwt", { session: false }),
   validateSchema(photographyPackageSchema),
   async (req, res, next) => {
     try {
@@ -32,7 +32,7 @@ router.get(
 
 router.get(
   "/querry",
-  passport.authenticate("jwt", { session: false }),
+  // passport.authenticate("jwt", { session: false }),
   async (req, res, next) => {
     // console.log("here");
     let { name, priceFrom, priceTo, discountFrom, discountTo, skip, limit } =
@@ -64,7 +64,7 @@ router.get(
 
 router.get(
   "/:id",
-  passport.authenticate("jwt", { session: false }),
+  // passport.authenticate("jwt", { session: false }),
   validateSchema(photographyPackageIdSchema),
   async (req, res, next) => {
     try {
@@ -82,7 +82,7 @@ router.get(
 
 router.post(
   "/",
-  passport.authenticate("jwt", { session: false }),
+  // passport.authenticate("jwt", { session: false }),
   validateSchema(photographyPackageBodySchema),
   async (req, res, next) => {
     try {
@@ -100,7 +100,7 @@ router.post(
 );
 router.delete(
   "/:id",
-  passport.authenticate("jwt", { session: false }),
+  // passport.authenticate("jwt", { session: false }),
   validateSchema(photographyPackageIdSchema),
   async (req, res, next) => {
     try {
@@ -123,7 +123,7 @@ router.delete(
 
 router.patch(
   "/:id",
-  passport.authenticate("jwt", { session: false }),
+  // passport.authenticate("jwt", { session: false }),
   validateSchema(phoneNumberUpdateSchema),
   async (req, res, next) => {
     try {

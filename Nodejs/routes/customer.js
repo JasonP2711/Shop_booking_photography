@@ -37,7 +37,7 @@ router.get(
 router.get(
   "/",
   validateSchema(getCustomersSchema),
-  passport.authenticate("jwt", { session: false }),
+  // passport.authenticate("jwt", { session: false }),
   AuthPage(["admin"]),
   async (req, res, next) => {
     try {
@@ -52,7 +52,7 @@ router.get(
 router.get(
   "/:id",
   validateSchema(customerIdSchema),
-  passport.authenticate("jwt", { session: false }),
+  // passport.authenticate("jwt", { session: false }),
   async (req, res, next) => {
     try {
       const id = req.params.id;

@@ -9,7 +9,7 @@ router.get("/", async (req, res, next) => {
 
 router.post(
   "/signup",
-  passport.authenticate("jwt", { session: false }),
+  // passport.authenticate("jwt", { session: false }),
   async (req, res, next) => {
     var { email } = req.body; //config Nodemailer
     console.log("to email: ", email);
@@ -43,7 +43,7 @@ router.post(
 
 router.post(
   "/booking",
-  passport.authenticate("jwt", { session: false }),
+  // passport.authenticate("jwt", { session: false }),
   async (req, res, next) => {
     var { email, package, timeBooking, place } = req.body; //config Nodemailer
     console.log("to email: ", email);
