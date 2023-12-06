@@ -190,7 +190,7 @@ router.post("/login", async (req, res, next) => {
         },
         secret,
         {
-          expiresIn: "3d", // expires in 24 hours (24 x 60 x 60)
+          expiresIn: 60 * 2, // expires in 24 hours (24 x 60 x 60)
         }
       );
       console.log("data: ", dataLogin);
