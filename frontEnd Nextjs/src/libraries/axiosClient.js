@@ -1,7 +1,9 @@
 import axios from "axios";
 import jwtDecode from "jwt-decode";
 import { URL_ENV } from "@/constant/URL";
+import { userAuth } from "@/managerState/userAuth";
 // API_URL = "http://localhost:9000";
+const { logout } = userAuth((state) => state);
 const axiosClient = axios.create({
   // baseURL: "http://localhost:9000",
   baseURL: URL_ENV,
@@ -108,7 +110,7 @@ axiosClient.interceptors.response.use(
             return axiosClient(originalConfig);
           } else {
             console.log("het han!");
-            // logout();
+            logout();
             window.location.href = "/login";
             return Promise.reject(error);
           }
