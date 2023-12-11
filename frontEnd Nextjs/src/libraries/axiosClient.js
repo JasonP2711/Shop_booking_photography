@@ -21,12 +21,12 @@ axiosClient.interceptors.request.use(
   // chúng ta sẽ sử dụng Promise.reject(error) để trả về lỗi đó.
 
   (config) => {
-    console.log("config: ", config);
+    // console.log("config: ", config);
     if (config.data instanceof FormData) {
       //chỉ định kiểu dữ liệu được gửi đi là FormData nếu nó có kieẻu FormData
       config.headers["Content-Type"] = "multipart/form-data";
     }
-    console.log("run");
+    // console.log("run");
     // Kiểm tra nếu đang chạy trên phía client (trình duyệt)
     if (typeof window !== "undefined") {
       const token = window.localStorage.getItem("token");
