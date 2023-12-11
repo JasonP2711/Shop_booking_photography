@@ -1,9 +1,9 @@
 .container{
     display: flex;
     justify-content: center;
-    margin: 40px 0px 20px 20px;
+    /* margin: 40px 0px 20px 20px; */
     /* margin-bottom: 10px; */
-    
+    background-color: #383838;
   }
   
   .content1 {
@@ -14,7 +14,7 @@
   }
   .content1 h3{
    margin-bottom: 10px;
-   background-color: #a81515;
+    
   }
   .content2 {
     width: 20%;
