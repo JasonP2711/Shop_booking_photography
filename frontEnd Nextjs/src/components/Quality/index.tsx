@@ -1,4 +1,5 @@
 import React from "react";
+import { memo } from "react";
 import styles from "./style.module.css";
 import {
   FaCameraRetro,
@@ -101,4 +102,4 @@ function index({}: Props) {
   );
 }
 
-export default index;
+export default memo(index);

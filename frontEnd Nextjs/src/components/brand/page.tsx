@@ -1,4 +1,5 @@
 import React from "react";
+import { memo } from "react";
 import Image from "next/image";
 import style from "./style.module.css";
 type Props = {};
@@ -45,4 +46,4 @@ function Brand({}: Props) {
   );
 }
 
-export default Brand;
+export default memo(Brand);
