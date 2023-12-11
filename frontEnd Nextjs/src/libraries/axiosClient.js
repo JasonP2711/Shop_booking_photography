@@ -91,7 +91,7 @@ axiosClient.interceptors.response.use(
             window.location.href = "/login";
             return Promise.reject(error);
           }
-
+          console.log("refresh token status: ", refreshToken);
           if (refreshToken) {
             const response = await axiosClient.post("/customer/refresh-token", {
               refreshToken: refreshToken,
