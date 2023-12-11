@@ -14,6 +14,7 @@ import { Table } from "antd";
 export default function Index({ data }: Props) {
   // console.log("data: ", URL_ENV);
   var { auth } = userAuth((state: any) => state);
+  var { logout } = userAuth((state: any) => state);
 
   const [Form1] = Form.useForm();
   const [Form2] = Form.useForm();
@@ -158,6 +159,10 @@ export default function Index({ data }: Props) {
         .then((response) => {
           // console.log("hkh:", response.data.result);
           setDataUser(response.data.result);
+        })
+        .catch(() => {
+          message.warning("Xin hãy đăng nhập lại!!");
+          logout();
         });
     };
     const getdataOrder = async () => {
@@ -169,6 +174,10 @@ export default function Index({ data }: Props) {
           // console.log("hkh:", response.data);
           setOrderIn4(response.data.results);
           // console.log("hkh2:", response.data.results);
+        })
+        .catch(() => {
+          message.warning("Xin hãy đăng nhập lại!!");
+          logout();
         });
     };
     getdata();
@@ -202,6 +211,10 @@ export default function Index({ data }: Props) {
               .catch(() => {
                 message.error("Oppp, có lỗi rồi!!");
               });
+        })
+        .catch(() => {
+          message.warning("Xin hãy đăng nhập lại!!");
+          logout();
         });
     };
     updateInfor(value);
@@ -223,9 +236,15 @@ export default function Index({ data }: Props) {
   };
   const handleDeleteOrder = async (value: any) => {
     setReload((prev) => prev + 1);
-    await axiosClient.delete(`${URL_ENV}/order/${value._id}`).then((result) => {
-      message.success("Xóa đơn hẹn thành công!!");
-    });
+    await axiosClient
+      .delete(`${URL_ENV}/order/${value._id}`)
+      .then((result) => {
+        message.success("Xóa đơn hẹn thành công!!");
+      })
+      .catch(() => {
+        message.warning("Xin hãy đăng nhập lại!!");
+        logout();
+      });
   };
   console.log("state", orderIn4);
   // console.log("state2", dataUser);

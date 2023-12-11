@@ -46,7 +46,7 @@ export const userAuth = create(
                 router.push("/");
               }
             } catch (err) {
-              console.log("looix");
+              // console.log("looix");
               alert("Incorrect password or something was wrong!");
             }
           },

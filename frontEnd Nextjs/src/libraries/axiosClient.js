@@ -1,9 +1,8 @@
 import axios from "axios";
 import jwtDecode from "jwt-decode";
 import { URL_ENV } from "@/constant/URL";
-import { userAuth } from "@/managerState/userAuth";
 // API_URL = "http://localhost:9000";
-const { logout } = userAuth((state) => state);
+
 const axiosClient = axios.create({
   // baseURL: "http://localhost:9000",
   baseURL: URL_ENV,
@@ -93,7 +92,7 @@ axiosClient.interceptors.response.use(
             window.location.href = "/login";
             return Promise.reject(error);
           }
-          console.log("refresh token status: ", refreshToken);
+          // console.log("refresh token status: ", refreshToken);
           if (refreshToken) {
             const response = await axiosClient.post("/customer/refresh-token", {
               refreshToken: refreshToken,
@@ -110,8 +109,8 @@ axiosClient.interceptors.response.use(
             return axiosClient(originalConfig);
           } else {
             console.log("het han!");
-            logout();
-            window.location.href = "/login";
+            // logout();
+            window.location.href = "/";
             return Promise.reject(error);
           }
         }
