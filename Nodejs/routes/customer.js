@@ -177,7 +177,7 @@ router.post("/login", async (req, res, next) => {
       // ACCESS TOKEN
       var secret = jwtSettings.SECRET;
       var token = jwt.sign(payload, secret, {
-        expiresIn: 30,
+        expiresIn: 60 * 60 * 2,
         audience: jwtSettings.AUDIENCE,
         issuer: jwtSettings.ISSUER,
         subject: id,
@@ -190,7 +190,7 @@ router.post("/login", async (req, res, next) => {
         },
         secret,
         {
-          expiresIn: 60 * 2, // expires in 24 hours (24 x 60 x 60)
+          expiresIn: "2d", // expires in 24 hours (24 x 60 x 60)
         }
       );
       console.log("data: ", dataLogin);

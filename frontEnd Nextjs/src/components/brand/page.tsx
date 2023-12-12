@@ -9,6 +9,7 @@ import brand3 from "../../picture/kisspng-logo-mobile-world-congress-sony-xperia
 import brand4 from "../../picture/kisspng-logo-nikon-camera-nikon-logo-5b15ec6645f503.0623477815281634302866.png";
 
 function Brand({}: Props) {
+  console.log("re-render brand page!!");
   return (
     <>
       <div className={style.Brand}>

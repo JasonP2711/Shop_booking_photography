@@ -48,9 +48,14 @@
     margin-top: 10px;
 }
 
-.social__icon i{
+.social__icon>i{
     margin-left: 3%;
     font-size: 30px;
+    transition: transform 5s;
+}
+
+.social__icon>i:hover{
+    transform: rotateY(360deg);
 }
 
 @media screen and (max-width: 800px) {

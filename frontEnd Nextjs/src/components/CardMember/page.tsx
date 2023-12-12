@@ -1,4 +1,5 @@
 import React from "react";
+import { memo } from "react";
 import Image from "next/image";
 import { Card } from "antd";
 import Style from "./style.module.css";
@@ -21,6 +22,7 @@ type Props = {
 };
 
 function CardMember({ data }: Props) {
+  console.log("re-render cardmember!!");
   return (
     <>
       {data &&
@@ -63,4 +65,4 @@ function CardMember({ data }: Props) {
   );
 }
 
-export default CardMember;
+export default memo(CardMember);
