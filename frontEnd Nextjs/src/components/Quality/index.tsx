@@ -14,6 +14,7 @@ import {
 type Props = {};
 
 function index({}: Props) {
+  console.log("re-render quality");
   return (
     <>
       <div className={styles.element}>

@@ -238,7 +238,7 @@ export default function Index({ data }: Props) {
     setReload((prev) => prev + 1);
     await axiosClient
       .delete(`${URL_ENV}/order/${value._id}`)
-      .then((result) => {
+      .then(() => {
         message.success("Xóa đơn hẹn thành công!!");
       })
       .catch(() => {

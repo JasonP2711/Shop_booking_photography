@@ -193,7 +193,7 @@ router.post("/login", async (req, res, next) => {
           expiresIn: "2d", // expires in 24 hours (24 x 60 x 60)
         }
       );
-      console.log("data: ", dataLogin);
+      // console.log("data: ", dataLogin);
       //nếu xác thực theo header(không dùng theo phương thức barer token) thì dùng thêm middleware verifyToken
       return res.header("token", token).status(200).json({
         resultId: dataLogin._id,

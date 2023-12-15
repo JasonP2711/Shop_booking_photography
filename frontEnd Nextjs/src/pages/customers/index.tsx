@@ -21,6 +21,7 @@ function Index({ data }: Props) {
   const [user, setUser] = useState<any>();
   const [refresh, setRefresh] = useState<number>(0);
 
+  ///Chỉ dùng axios và headers gắn token
   // useEffect(() => {
   //   const data = async () => {
   //     try {
@@ -46,15 +47,11 @@ function Index({ data }: Props) {
   //   data();
   // }, [refresh]);
 
-  ///////////////////thử dùng middleware axiosClient
+  /////////////////// dùng middleware axiosClient
 
   useEffect(() => {
     const getData = async () => {
       try {
-        var token;
-        if (typeof window !== "undefined") {
-          token = window.localStorage.getItem("token");
-        }
         //nếu cần phân quyền thì truyền query cái field roles, nếu đúng thì
         const response = await axiosClient.get(`/customer?roles=${"admin"}`);
         if (response) {
